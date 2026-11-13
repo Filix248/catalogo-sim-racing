@@ -34,7 +34,7 @@ h1,h2,h3,p { word-break:normal; }
 .affiliate-notice { border:1px solid #2c3d56; border-left:3px solid #86adff; border-radius:6px; background:#111a29; padding:13px 16px; margin-bottom:4px; }
 .affiliate-notice p { margin:0; color:#cfdaed; font-size:12px; line-height:1.65; }
 .affiliate-notice p+p { margin-top:5px; color:#b4c3dd; }
-.affiliate-link-disclosure { margin:0; color:#b8c9e3; font-size:12px; line-height:1.6; }
+.stApp .affiliate-link-disclosure { margin:0; color:#b8c9e3; font-size:12px; line-height:1.6; }
 .section-heading { margin:25px 0 3px; }
 .section-heading h2 { font-size:29px; letter-spacing:-.9px; color:#f0f3fa; margin:9px 0 8px; padding:0; font-weight:750; line-height:1.3; }
 .section-heading p { font-size:12px; color:#a6b1c4; margin:0 0 9px; line-height:1.8; }
@@ -63,8 +63,8 @@ div[class*="st-key-card_"]>[data-testid="stVerticalBlock"] { gap:.75rem; }
 .category-label { position:absolute; top:11px; left:11px; z-index:2; font-size:8px; letter-spacing:1.1px; text-transform:uppercase; color:#bfd0ec; border:1px solid #3d506b; background:#132033cc; padding:4px 7px; border-radius:3px; }
 .art-caption { position:absolute; right:8px; bottom:7px; font-size:6px; letter-spacing:1px; color:#a0aec2; }
 .product-level { font-size:8px; text-transform:uppercase; letter-spacing:1.6px; color:#9bbafd; margin-top:7px; }
-.product-title { color:#f2f5fc; font-size:20px; line-height:1.35; letter-spacing:-.5px; margin:8px 0 9px; padding:0; min-height:28px; }
-.product-description { font-size:11px; color:#a9b5c9; line-height:1.8; margin:0; min-height:40px; }
+.stApp .product-title { color:#f2f5fc; font-size:20px; line-height:1.35; letter-spacing:-.5px; margin:8px 0 9px; padding:0; min-height:28px; }
+.stApp .product-description { font-size:11px; color:#a9b5c9; line-height:1.8; margin:0; min-height:40px; }
 .spec-pills { display:flex; flex-wrap:wrap; gap:5px; min-height:30px; align-items:center; }
 .spec-pills span { border:1px solid #344159; background:#172130; padding:4px 7px; border-radius:4px; font-size:9px; color:#bccae0; }
 .compatibility { font-size:10px; padding-top:2px; }
@@ -101,7 +101,7 @@ div[class*="st-key-guide_"] { background:#121b29; padding:25px; border:1px solid
   .brand-note { display:none; }
   .hero-tags { gap:10px; font-size:7px; }
   .trust-small { display:none; }
-  .product-title { font-size:17px; }
+  .stApp .product-title { font-size:17px; }
   div[class*="st-key-card_"] { padding:12px; }
   .product-art { height:145px; }
   .collection-title { font-size:17px; }
@@ -132,8 +132,8 @@ div[class*="st-key-guide_"] { background:#121b29; padding:25px; border:1px solid
   div[class*="st-key-collection_"] { min-height:0; padding:18px 19px 8px; }
   .collection-copy { min-height:0; }
   .product-art { height:220px; }
-  .product-title { font-size:22px; }
-  .product-description { min-height:0; font-size:12px; }
+  .stApp .product-title { font-size:22px; }
+  .stApp .product-description { min-height:0; font-size:12px; }
   .results-meta { font-size:9px; }
   .results-meta>span:last-child { max-width:45%; text-align:right; }
   .footer-brand small { display:block; margin:13px 0 0; }
