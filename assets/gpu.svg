@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Tarjeta gráfica</title>
+  <desc id="desc">Ilustración representativa de una tarjeta gráfica con dos ventiladores y chasis metálico.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#527FFF" stop-opacity=".2"/><stop offset="1" stop-color="#527FFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="face" x1="134" y1="128" x2="443" y2="226" gradientUnits="userSpaceOnUse"><stop stop-color="#52617A"/><stop offset=".35" stop-color="#26374F"/><stop offset=".65" stop-color="#172438"/><stop offset="1" stop-color="#3A4F6B"/></linearGradient>
+    <linearGradient id="side" x1="180" y1="191" x2="406" y2="262" gradientUnits="userSpaceOnUse"><stop stop-color="#172438"/><stop offset="1" stop-color="#09121F"/></linearGradient>
+    <linearGradient id="blade" x1="-30" y1="-40" x2="30" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#4D6484"/><stop offset="1" stop-color="#111F32"/></linearGradient>
+    <g id="fan">
+      <circle r="54" fill="#0A1321" stroke="#6D85A5" stroke-width="2"/>
+      <circle r="48" stroke="#273D5E" stroke-width="2"/>
+      <g fill="url(#blade)" stroke="#56708F" stroke-width=".6">
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(51.43)"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(102.86)"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(154.29)"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(205.72)"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(257.15)"/>
+        <path d="M-8-9C-29-13-40-28-35-39c19-3 31 10 35 26z" transform="rotate(308.58)"/>
+      </g>
+      <circle r="14" fill="#283E5C" stroke="#8DA7CA"/>
+      <circle r="7" fill="#10213A"/>
+      <path d="m-5 0 5-5 5 5-5 5z" fill="#7FAAFF"/>
+    </g>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <ellipse cx="300" cy="184" rx="240" ry="145" fill="url(#glow)"/>
+  <ellipse cx="302" cy="266" rx="169" ry="15" fill="#02050A" opacity=".65" filter="url(#blur)"/>
+  <path d="m120 132 81-40 290 79-78 44z" fill="#1E2F48" stroke="#7589A6" stroke-width="1.5"/>
+  <path d="m120 132 293 83v43l-293-83z" fill="url(#side)" stroke="#445B7C" stroke-width="1.5"/>
+  <path d="m413 215 78-44v43l-78 44z" fill="#0B1728" stroke="#4D6688"/>
+  <path d="m132 129 68-33 277 76-65 37z" fill="url(#face)" stroke="#8A9DB6"/>
+  <path d="m147 128 53-26 261 72-49 28z" fill="#22344D"/>
+  <g transform="matrix(.98 .275 -.62 .36 222 143)"><use href="#fan"/></g>
+  <g transform="matrix(.98 .275 -.62 .36 365 183)"><use href="#fan"/></g>
+  <path d="m141 151 250 70" stroke="#7DA7FF" stroke-width="3"/>
+  <path d="m141 158 250 70" stroke="#1D3353" stroke-width="5"/>
+  <path d="m140 165 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2m4-1 7 2" stroke="#607A9E" stroke-width="5"/>
+  <path d="m189 198 126 35v13l-126-35z" fill="#8B7A48" stroke="#C5B078"/>
+  <path d="m195 202 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11m6-9 1 11" stroke="#322C20"/>
+  <path d="m128 128-16-4-8 5v57l16 6v-17m-8-45v45" stroke="#93A7C1" stroke-width="3"/>
+  <path d="m440 214 12-7v12l-12 7zm19-11 12-7v12l-12 7z" fill="#273E5D" stroke="#7390B3"/>
+  <circle cx="152" cy="128" r="2" fill="#B1C3DB"/><circle cx="410" cy="199" r="2" fill="#B1C3DB"/><circle cx="202" cy="101" r="2" fill="#B1C3DB"/><circle cx="458" cy="173" r="2" fill="#B1C3DB"/>
+</svg>

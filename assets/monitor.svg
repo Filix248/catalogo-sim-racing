@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Monitor para sim racing</title>
+  <desc id="desc">Ilustración representativa de un monitor panorámico con una trazada de circuito abstracta.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#527FFF" stop-opacity=".22"/><stop offset="1" stop-color="#527FFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="screen" x1="151" y1="75" x2="447" y2="231" gradientUnits="userSpaceOnUse"><stop stop-color="#1C304D"/><stop offset=".5" stop-color="#0B1524"/><stop offset="1" stop-color="#234268"/></linearGradient>
+    <linearGradient id="stand" x1="267" y1="215" x2="335" y2="288" gradientUnits="userSpaceOnUse"><stop stop-color="#5B6B84"/><stop offset=".5" stop-color="#25354F"/><stop offset="1" stop-color="#101B2B"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+    <clipPath id="display"><path d="M134 72c102 17 227 17 331 0v150c-102 17-229 17-331 0z"/></clipPath>
+  </defs>
+  <ellipse cx="301" cy="180" rx="235" ry="150" fill="url(#glow)"/>
+  <ellipse cx="302" cy="290" rx="143" ry="12" fill="#02050A" opacity=".65" filter="url(#blur)"/>
+  <path d="m285 226-8 43 14 7 22-8 2-42z" fill="url(#stand)" stroke="#7084A2"/>
+  <path d="m294 261-72 28 9 5 71-15 78 15 10-6-79-27z" fill="#2E415E" stroke="#6A809F"/>
+  <path d="m233 288 69-17 75 17m-75-17v8" stroke="#17273F" stroke-width="3"/>
+  <path d="M125 59c109 20 239 20 350 0v174c-110 19-241 19-350 0z" fill="#090F19" stroke="#5B718F" stroke-width="2"/>
+  <path d="M134 72c102 17 227 17 331 0v150c-102 17-229 17-331 0z" fill="url(#screen)"/>
+  <g clip-path="url(#display)">
+    <path d="m118 160 80-24 51 21 45-13 65 17 58-22 61 20v82H118z" fill="#1A2F46"/>
+    <path d="m118 173 87-18 47 16 44-11 64 16 61-22 58 23v64H118z" fill="#14283C"/>
+    <path d="M310 153c18 1 27 3 40 8-26 8-54 14-52 29 2 18 52 31 86 51H209c8-26 7-37 31-49 30-15 62-24 70-39z" fill="#334E6C"/>
+    <path d="M313 155c-16 20-76 27-91 51-6 11-6 19-11 35m136-79c-57 15-79 28-16 58l47 21" stroke="#A6C7EC" stroke-width="2"/>
+    <path d="m313 162-6 4m-12 7-10 5m-16 9-11 10m-8 17 1 15" stroke="#E0ECFA" stroke-width="2"/>
+    <path d="m138 217 65 12m194 3 63-10" stroke="#6398FF" stroke-width="4"/>
+    <path d="m149 102 20 3m-20 5 36 4m-36 3 25 3" stroke="#6888B4" stroke-width="2"/>
+    <path d="m404 103 13-8 17 2 13 11-4 9-18 4-16-6z" stroke="#82AAE5" stroke-width="1.5"/>
+    <circle cx="434" cy="99" r="3" fill="#A7C5FF"/>
+    <path d="M134 74c102 17 227 17 331 0v23c-90 34-192 46-331 40z" fill="#B1CEFF" opacity=".035"/>
+  </g>
+  <path d="M125 59c109 20 239 20 350 0" stroke="#8395B0" stroke-opacity=".5"/>
+  <path d="m285 239 29 1" stroke="#586C8B" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="454" cy="235" r="1.5" fill="#8DAEFF"/>
+</svg>
