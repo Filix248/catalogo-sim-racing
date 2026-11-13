@@ -134,7 +134,7 @@ def product_card(product: dict, context: str, *, assessment: dict | None = None)
         url = safe_amazon_url(product.get("url_afiliado"))
         if url:
             st.link_button("Consultar en Amazon ↗", url, type="primary", width="stretch")
-            st.caption("Consulta precio, variante y disponibilidad en Amazon. Puede ser un enlace de afiliado.")
+            html('<p class="affiliate-link-disclosure"><strong>Enlace de afiliado.</strong> Puedo recibir una comisión por las compras que cumplen los requisitos aplicables. Consulta precio, variante y disponibilidad en Amazon.</p>')
         else:
             st.button("Enlace pendiente", disabled=True, key=f"pending_{context}_{pid}", width="stretch")
             st.caption("Este producto aún no tiene un enlace de compra válido.")
@@ -201,6 +201,7 @@ if st.session_state["navigation"] == "Explorar":
 
 comparison_count = len(st.session_state["comparison"])
 navigation = st.segmented_control("Navegación principal", ["Explorar", "Mi setup", "Comparar", "Guías"], key="navigation", required=True, label_visibility="collapsed", format_func=lambda page: f"{page} ({comparison_count})" if page == "Comparar" and comparison_count else page)
+html('<aside class="affiliate-notice" aria-label="Información de afiliación"><p><strong>Enlaces de afiliado:</strong> puedo recibir una comisión por las compras que cumplen los requisitos aplicables.</p><p lang="en">As an Amazon Associate I earn from qualifying purchases.</p></aside>')
 if source != "supabase":
     st.info("Estás viendo datos de muestra. " + ("No pudimos cargar el catálogo conectado. Puedes seguir explorando y volver a intentarlo." if source == "offline" else "Conecta tu catálogo para mostrar tus productos reales."), icon="ℹ️")
     if source == "offline" and st.button("Reintentar conexión"):
@@ -331,4 +332,4 @@ elif navigation == "Guías":
         st.write("Los guardados y la comparación duran durante esta sesión. No se crea una cuenta ni se envían esas selecciones a la base de datos.")
     st.button("Armar mi selección →", type="primary", on_click=go_to, args=("Mi setup",))
 
-html('<footer class="footer"><div class="footer-brand">APEX<span>/</span>LAB <small>ELIGE CON CRITERIO. CORRE A TU RITMO.</small></div><p>Catálogo independiente de sim racing. Las compras se realizan en Amazon.</p><p>Proyecto en preparación para Amazon Afiliados. Los enlaces de afiliado se identificarán cuando se active la participación en el programa. Los enlaces de compra solo se habilitan cuando hay una URL válida.</p><p class="footer-note">Consulta precio y disponibilidad en Amazon. La ficha del fabricante y la variante exacta determinan la compatibilidad.</p></footer>')
+html('<footer class="footer"><div class="footer-brand">APEX<span>/</span>LAB <small>ELIGE CON CRITERIO. CORRE A TU RITMO.</small></div><p>Catálogo independiente de sim racing. Las compras se realizan en Amazon.</p><p class="footer-affiliation">Como Afiliado de Amazon, obtengo ingresos por las compras que cumplen los requisitos aplicables.</p><p class="footer-note">Consulta precio y disponibilidad en Amazon. La ficha del fabricante y la variante exacta determinan la compatibilidad.</p></footer>')
