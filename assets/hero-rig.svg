@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Cockpit de sim racing</title>
+  <desc id="desc">Ilustración original de un cockpit de carreras con monitor panorámico, volante, pedales y asiento deportivo sobre una plataforma iluminada en azul.</desc>
+  <defs>
+    <radialGradient id="halo"><stop stop-color="#386BE6" stop-opacity=".3"/><stop offset="1" stop-color="#386BE6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="base" x1="200" y1="300" x2="800" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#263349"/><stop offset=".5" stop-color="#101824"/><stop offset="1" stop-color="#1D2B42"/></linearGradient>
+    <linearGradient id="edge" x1="230" y1="320" x2="750" y2="450" gradientUnits="userSpaceOnUse"><stop stop-color="#7AA7FF"/><stop offset=".55" stop-color="#253D65"/><stop offset="1" stop-color="#6398FF"/></linearGradient>
+    <linearGradient id="metal" x1="460" y1="200" x2="640" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#56677F"/><stop offset=".35" stop-color="#233044"/><stop offset="1" stop-color="#10151F"/></linearGradient>
+    <linearGradient id="seat" x1="650" y1="130" x2="820" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#34445D"/><stop offset=".45" stop-color="#192537"/><stop offset="1" stop-color="#0D1420"/></linearGradient>
+    <linearGradient id="screen" x1="260" y1="100" x2="570" y2="250" gradientUnits="userSpaceOnUse"><stop stop-color="#121F35"/><stop offset=".5" stop-color="#080E18"/><stop offset="1" stop-color="#203C63"/></linearGradient>
+    <linearGradient id="road" x1="320" y1="120" x2="410" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#1E3550"/><stop offset="1" stop-color="#3E5D7C"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="16"/></filter>
+    <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.6"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <ellipse cx="548" cy="270" rx="425" ry="230" fill="url(#halo)"/>
+  <g opacity=".16" stroke="#6D97DC" stroke-width="1">
+    <path d="m110 376 432-142 359 121M149 398l432-142 359 121M188 420l432-142 320 108M227 442l432-142 242 81"/>
+    <path d="m110 376 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66"/>
+  </g>
+  <ellipse cx="552" cy="410" rx="304" ry="42" fill="#02050B" opacity=".7" filter="url(#shadow)"/>
+  <path d="m257 353 333-99 252 129-331 108-254-127z" fill="#090F19"/>
+  <path d="m257 349 333-99 252 129-331 108-254-127z" fill="url(#base)" stroke="#344561" stroke-width="1.5"/>
+  <path d="m257 360 254 131 331-108" stroke="#182945" stroke-width="7"/>
+  <path d="m275 357 239 122 309-102" stroke="url(#edge)" stroke-width="2"/>
+  <path d="m298 348 299-84 201 108-286 94z" fill="#101925" stroke="#27364C"/>
+  <path d="m313 350 282-79m-245 98 282-80m-244 99 282-81m-244 100 282-82m-244 101 282-83" stroke="#233148" stroke-width="1"/>
+  <!-- Extruded aluminum frame. -->
+  <path d="m354 340 176 83 227-72-173-83z" fill="#152131" stroke="#46576C" stroke-width="2"/>
+  <path d="m354 340 176 83v15l-176-83z" fill="#26364B"/>
+  <path d="m530 423 227-72v16l-227 71z" fill="#0B121D" stroke="#2A3E57"/>
+  <path d="m376 340 158 73m20 2 176-57" stroke="#7285A2" stroke-opacity=".45"/>
+  <path d="m390 333 170 79m-25 9 1 14m-64-45v15m-66-47v15" stroke="#060C15" stroke-width="2"/>
+  <!-- Pedal deck and two pedals. -->
+  <path d="m323 318 95-29 81 39-96 32z" fill="#2E3D52" stroke="#526782"/>
+  <path d="m323 318 80 42v10l-80-41z" fill="#101A29"/>
+  <path d="m350 308 26-9 25-36-26 7z" fill="#60738C" stroke="#9DAEC0"/>
+  <path d="m354 303 19-6 18-26-18 5z" fill="#1B2A3D"/>
+  <path d="m389 326 27-9 24-41-28 8z" fill="#60738C" stroke="#9DAEC0"/>
+  <path d="m394 320 18-6 17-29-18 5z" fill="#1B2A3D"/>
+  <path d="m360 295 19-6m-15 0 19-6m17 27 18-6m-14 0 18-6" stroke="#617A96"/>
+  <!-- Monitor stand. -->
+  <path d="m425 314 14-5V175l-14 4z" fill="#172334" stroke="#41536C"/>
+  <path d="m432 174 14 4v132l-7-1V175z" fill="#33445E"/>
+  <path d="m401 318 37-12 43 22-37 12z" fill="#203149" stroke="#526583"/>
+  <!-- Wide curved display; the screen is an abstract driving scene. -->
+  <path d="M239 77c87 39 209 55 333 37v151c-122 17-242-1-333-40z" fill="#070C14" stroke="#4B5F7C" stroke-width="2"/>
+  <path d="M247 88c86 36 198 51 316 36v129c-117 14-229-2-316-36z" fill="url(#screen)"/>
+  <path d="M247 166c99 20 200 25 316 20v67c-117 14-229-2-316-36z" fill="#14263A"/>
+  <path d="m247 173 57-9 34 13 45-4 28 10 41-3 43 10 68-4" stroke="#6384AB" stroke-opacity=".35"/>
+  <path d="M372 179c18 7 39 8 48 9-15 6-27 18-26 31 0 17 17 28 36 36l-94-14c-3-13 1-25 10-35 7-9 19-16 26-27z" fill="url(#road)"/>
+  <path d="M377 181c-3 10-21 17-29 29-7 9-10 19-10 31m77-53c-23 14-34 37 13 67" stroke="#91B7DF" stroke-width="1.5" opacity=".7"/>
+  <path d="m379 188-5 3m-10 8-5 5m-9 12-2 9m2 10 4 8" stroke="#DFEAF7" stroke-width="1.8"/>
+  <path d="m253 214 78 24m112 14 112-1" stroke="#6398FF" stroke-width="3" opacity=".8"/>
+  <path d="M247 88c86 36 198 51 316 36" stroke="#7186A3" stroke-opacity=".5"/>
+  <path d="m392 257 26 4" stroke="#63768E" stroke-width="2" stroke-linecap="round"/>
+  <!-- Steering support and drive unit. -->
+  <path d="m482 342 13-4-18-93-15 4z" fill="url(#metal)" stroke="#60728B"/>
+  <path d="m550 377 14-5-19-96-14 5z" fill="url(#metal)" stroke="#60728B"/>
+  <path d="m451 244 63-19 53 28-62 21z" fill="#30425B" stroke="#7083A2"/>
+  <path d="m451 244 54 30v11l-54-30z" fill="#101B2B"/>
+  <path d="m505 274 62-21v11l-62 21z" fill="#142237"/>
+  <path d="m493 228 45-13 41 20-44 16z" fill="#263A57" stroke="#607995"/>
+  <path d="m493 228 42 23v29l-42-23z" fill="#17243B"/>
+  <path d="m535 251 44-16v29l-44 16z" fill="#0B1424" stroke="#344F72"/>
+  <path d="m540 258 32-11m-32 16 32-11m-32 16 32-11" stroke="#4B6690"/>
+  <!-- Steering wheel, in a tilted plane. -->
+  <g transform="translate(566 260) rotate(-23)">
+    <ellipse rx="51" ry="62" fill="#080E18" stroke="#344967" stroke-width="5"/>
+    <ellipse rx="39" ry="49" fill="#131E2E" stroke="#5A6F89" stroke-width="2"/>
+    <path d="m-37-14 27 18 4-39h12l4 39 27-18 3 15-29 19-6 25H-6l-6-25-28-19z" fill="#2D3F58" stroke="#677F9D"/>
+    <ellipse rx="17" ry="20" fill="#0C1422" stroke="#536F96"/>
+    <path d="M-9-58h18" stroke="#8CB4FF" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="-23" cy="-4" r="4" fill="#6398FF"/><circle cx="23" cy="-4" r="4" fill="#B5CBF4"/>
+    <path d="M-47-20v28m94-28v28" stroke="#0C1523" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <!-- Seat mount, side panels and bolstered seat. -->
+  <path d="m610 349 68 33 77-26-66-34z" fill="#0D1827" stroke="#4B607E"/>
+  <path d="m632 346-5 28 13 6 9-30m56 5-3 28 14-5 6-30" fill="#22334D" stroke="#506788"/>
+  <path d="M651 176c-5-22 5-39 19-44l47-14c17-5 30 3 35 17l29 118-55 71-71-37z" fill="url(#seat)" stroke="#5B718F" stroke-width="2"/>
+  <path d="m668 151 46-14c9-3 15 0 17 10l23 104-39 52-41-22-19-104c-3-14 1-22 13-26z" fill="#101A29" stroke="#334968"/>
+  <path d="m685 152 24-7 5 19-24 7z" fill="#080E17" stroke="#4C6180"/>
+  <path d="m680 194 52-16m-50 35 54-16m-50 35 54-16m-50 35 55-16" stroke="#23374F" stroke-width="2"/>
+  <path d="M649 207c-14-7-20 0-17 17l11 61 25 27 11-9-18-72c-2-10-5-20-12-24z" fill="#273951" stroke="#526D91"/>
+  <path d="m741 183 20 4 27 74-28 37-15-13 20-32z" fill="#24364D" stroke="#526D91"/>
+  <path d="m637 285-26 10c-15 7-18 22-6 33l50 36c10 8 19 9 31 5l75-26c16-6 18-18 5-28l-25-18-31 21-48-23z" fill="url(#seat)" stroke="#5F7696" stroke-width="2"/>
+  <path d="m632 302-15 7c-7 3-7 7-1 11l44 31c8 5 14 6 23 3l63-22c6-2 8-6 1-11l-14-10-26 19-49-23z" fill="#17263C" stroke="#304763"/>
+  <path d="m654 176 20 105m61-137 24 105M616 329l43 31c9 7 18 9 28 5l66-23" stroke="#6398FF" stroke-opacity=".9" stroke-width="2"/>
+  <path d="m648 283 12 7m85-13 12 6" stroke="#B3C9EB" stroke-width="2"/>
+  <!-- Blue light reflected on the platform. -->
+  <path d="m478 450 67 33 214-68" stroke="#487CE7" stroke-opacity=".28" stroke-width="14" filter="url(#blur)"/>
+  <g fill="#B6D0FF"><circle cx="285" cy="357" r="2"/><circle cx="514" cy="477" r="2"/><circle cx="824" cy="379" r="2"/></g>
+</svg>
