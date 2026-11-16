@@ -1,17 +1,33 @@
 # APEX / LAB · Catálogo de sim racing
 
-Proyecto local en Streamlit para explorar hardware, guardar productos durante la sesión, comparar hasta tres opciones y armar una selección inicial por plataforma, simulador, resolución y nivel. Incluye ilustraciones originales de categorías; no representan el aspecto exacto de cada modelo. **No está publicado.**
+**Abre el catálogo público:** [apex-lab-sim-racing.streamlit.app](https://apex-lab-sim-racing.streamlit.app/).
 
-## Ejecutar
+La versión pública funciona en Streamlit Community Cloud y está conectada a Supabase. Puedes visitarla sin iniciar Python ni dejar este computador encendido. El código está en el [repositorio público de GitHub](https://github.com/Filix248/catalogo-sim-racing).
 
-Desde la carpeta del proyecto, con Python instalado:
+El catálogo permite explorar hardware, guardar productos durante la sesión, comparar hasta tres opciones y armar una selección inicial por plataforma, simulador, resolución y nivel. El selector de simulador incluye 18 juegos y permite buscar escribiendo su nombre.
+
+## Catálogo actual
+
+La ampliación revisada el 16 de noviembre de 2026 reúne **16 productos de Amazon.com en siete categorías**: seis volantes, dos palancas de cambios, una pedalera, un soporte, un cockpit, dos GPU y tres monitores. Las fichas identifican el modelo o variante, el contenido del conjunto y los requisitos documentados. El kit Logitech G923 existente se mantiene identificado como reacondicionado.
+
+Cada producto tiene descripción editorial, advertencias cuando necesita otro componente, enlaces a fuentes del fabricante y fecha de revisión. Los requisitos se muestran junto al botón de compra; el detalle permite consultar el contenido y las fuentes. No se muestran precios, existencias, puntuaciones, reseñas ni fotografías de Amazon.
+
+Las imágenes son ilustraciones originales de categorías y no representan el aspecto exacto de cada modelo. A las cuatro ilustraciones iniciales se añadieron `pedals.svg`, `shifter.svg`, `stand.svg` y `cockpit.svg` para las nuevas categorías.
+
+Los enlaces de Amazon.com utilizan el identificador público de seguimiento verificado `apexlabsimrac-20`. La web incluye el aviso de afiliación general y otro junto a cada enlace de compra. La condición de la oferta, la disponibilidad, los gastos de envío y la entrega a Chile se consultan en Amazon al comprar.
+
+## Desarrollo local
+
+Para trabajar en el código de este computador, abre una terminal en la carpeta del proyecto y ejecuta:
 
 ```powershell
 python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-Abre la dirección local que indica Streamlit. Para ejecutar las pruebas del motor de catálogo:
+Abre la dirección local que indica Streamlit, normalmente `http://127.0.0.1:8501/`. Esa dirección funciona únicamente en el computador que está ejecutando el servidor y requiere mantener el proceso activo. Si cierras la terminal o detienes Streamlit, la versión local deja de responder. Para visitar el catálogo desde otro dispositivo, usa el enlace público de arriba.
+
+Para ejecutar las pruebas del catálogo:
 
 ```powershell
 python -m unittest discover -s tests -v
@@ -29,13 +45,13 @@ Columnas del catálogo:
 | --- | --- |
 | `id` | Identificador único y estable, recomendado para guardados y comparación. |
 | `nombre` | Nombre y variante exacta del producto. |
-| `categoria` | Por ejemplo, `Volante`, `GPU` o `Monitor`. |
+| `categoria` | `Volante`, `Palanca de cambios`, `Pedales`, `Soporte`, `Cockpit`, `GPU` o `Monitor`. |
 | `nivel_presupuesto` | `Entry`, `Mid-range` o `Enthusiast`. Es una clasificación, no un límite de gasto. |
 | `specs_tecnicas` | Objeto JSON con las características documentadas. |
 | `url_afiliado` | Enlace HTTPS real de Amazon o enlace corto oficial; puede quedar vacío. |
 | `precio_aprox` | Campo heredado opcional. Se conserva al cargar, pero no se muestra como precio vigente. |
 
-En `specs_tecnicas` se admiten `tipo`, `fuerza_feedback`, `vram_gb` y `hz`. Para evaluar la selección, añade únicamente metadatos comprobados para la variante concreta:
+En `specs_tecnicas` se guardan características como `tipo`, `fuerza_feedback`, `vram_gb`, `hz`, `resolucion` y `conexion`, además de `asin`, `descripcion_editorial`, `incluye`, `requiere`, `advertencia`, `fuentes_fabricante` y `fecha_revision`. `resolucion` describe el panel del monitor; no es una promesa de rendimiento del equipo. Para evaluar la selección, añade únicamente metadatos comprobados para la variante concreta:
 
 - `plataformas`: lista de valores como `PC`, `PlayStation`, `Xbox` o `Laptop con eGPU`.
 - `simuladores`: lista de juegos con soporte o requisitos documentados.
@@ -43,17 +59,17 @@ En `specs_tecnicas` se admiten `tipo`, `fuerza_feedback`, `vram_gb` y `hz`. Para
 
 Las listas deben reflejar el soporte documentado. Si faltan, están vacías o tienen un formato incorrecto, la compatibilidad queda **por confirmar**. No se deduce la variante de un volante por su nombre. El soporte para PC tampoco confirma una caja eGPU o un portátil específico. Las GPU de escritorio se excluyen para consola.
 
-Los cinco registros iniciales aún no incluyen metadatos de compatibilidad. Sus direcciones `/dp/ejemplo1`, `/dp/ejemplo2`, etc. son ejemplos inactivos: los botones de compra permanecen deshabilitados. Reemplázalas por enlaces reales de la variante correcta. La validación del formato de una URL no verifica el producto, la disponibilidad ni que genere comisión.
+Las fichas genéricas iniciales se sustituyeron por modelos concretos y enlaces reales. La validación del formato de una URL no verifica por sí sola el producto, la disponibilidad ni que una compra genere comisión. Los accesorios no reciben soporte universal de PC o consola: una palanca o pedalera puede requerir una base, conexión o firmware específico, y un soporte necesita comprobar su anclaje.
 
 ## Alcance actual
 
 Los guardados y la comparación duran durante la sesión de Streamlit; no se sincronizan entre dispositivos. El configurador ofrece como máximo una opción por categoría y puede producir una selección parcial. No calcula FPS, no comprueba todas las conexiones de un equipo y no muestra precios ni existencias en tiempo real. Las compras se realizan en Amazon.
 
-Antes de activar la afiliación, confirma el marketplace, el identificador de seguimiento y los requisitos de tu programa. Consulta el [contrato de Amazon Afiliados](https://afiliados.amazon.es/help/operating/agreement) y sus [políticas de contenido](https://afiliados.amazon.es/help/operating/policies/); estos enlaces corresponden a España.
+La afiliación corresponde a Amazon.com. Consulta el [contrato del programa](https://affiliate-program.amazon.com/help/operating/agreement) y sus [políticas de contenido](https://affiliate-program.amazon.com/help/operating/policies/). La publicación de la web y los enlaces no garantiza la aprobación definitiva ni ingresos.
 
 ## Cuatro ideas para crecer
 
 1. **Colección para espacios pequeños:** soportes plegables, fijación a mesa y medidas verificadas para guardar el equipo después de correr.
 2. **Mejoras según lo que te limita:** recorridos por control, postura, espacio o imagen, con una comparación concreta de alternativas de la misma categoría.
-3. **Fichas con más evidencia:** fotos propias o autorizadas, medidas y conexiones, variante exacta, fuentes del fabricante y fecha de revisión.
-4. **Enlaces reales por mercado:** elegir el país objetivo, incorporar enlaces oficiales con el identificador de seguimiento correcto y revisar que cada botón lleve a su variante. La afiliación no garantiza ingresos.
+3. **Fichas con más evidencia:** ampliar medidas, conexiones y pruebas propias, manteniendo la variante exacta y sus fuentes.
+4. **Revisión periódica:** comprobar que los enlaces siguen llevando al modelo previsto y actualizar fuentes cuando cambien las variantes.
