@@ -7,6 +7,7 @@ and patches the client's creation for all reruns.
 
 import copy
 from html import unescape
+from io import BytesIO
 import logging
 import os
 from pathlib import Path
@@ -16,6 +17,7 @@ from unittest.mock import MagicMock, patch
 
 import streamlit as st
 from streamlit.testing.v1 import AppTest
+from pypdf import PdfReader
 
 from catalogo import DEMO_PRODUCTS
 
@@ -168,14 +170,67 @@ class AppInteractionTests(unittest.TestCase):
         app.multiselect(key="compare_picker").set_value(["demo-g923", "demo-t300"]).run()
         self.assertHealthy(app)
         self.assertEqual(app.session_state["comparison"], ["demo-g923", "demo-t300"])
-        self.assertEqual(len(app.dataframe), 1)
-        self.assertEqual(len(app.dataframe[0].value.columns), 3)
+        preview = [item.value for item in app.markdown if 'class="comparison-preview"' in item.value]
+        self.assertEqual(len(preview), 1)
+        self.assertLess(preview[0].index("Logitech G923"), preview[0].index("Thrustmaster T300 RS"))
         app.multiselect(key="compare_picker").set_value(["demo-t300"]).run()
         self.navigate(app, "Explorar")
         self.assertEqual(app.button(key="compare_catalogue_demo-t300").label, "✓ Añadido")
         self.assertEqual(app.button(key="compare_catalogue_demo-g923").label, "+ Comparar")
         self.navigate(app, "Comparar")
         self.assertEqual(app.multiselect(key="compare_picker").value, ["demo-t300"])
+
+    def test_comparison_download_is_pdf_of_current_selection_and_keeps_state(self):
+        app = self.app()
+        self.navigate(app, "Comparar")
+        self.assertEqual(len(app.get("download_button")), 0)
+        selected_ids = ["demo-t300", "demo-g923", "demo-4060"]
+        by_id = {product["id"]: product for product in DEMO_PRODUCTS}
+        with patch("streamlit.download_button", wraps=st.download_button) as download:
+            for count in (1, 2, 3):
+                with self.subTest(product_count=count):
+                    current = selected_ids[:count]
+                    app.multiselect(key="compare_picker").set_value(current).run()
+                    self.assertHealthy(app)
+                    kwargs = download.call_args.kwargs
+                    self.assertEqual(kwargs["mime"], "application/pdf")
+                    self.assertEqual(kwargs["file_name"], "mi-comparacion-apex.pdf")
+                    self.assertTrue(kwargs["data"].startswith(b"%PDF-"))
+                    text = "\n".join(page.extract_text() or "" for page in PdfReader(BytesIO(kwargs["data"])).pages)
+                    for pid in current:
+                        self.assertIn(by_id[pid]["nombre"], text)
+                    for pid in selected_ids[count:]:
+                        self.assertNotIn(by_id[pid]["nombre"], text)
+                    buttons = app.get("download_button")
+                    self.assertEqual(len(buttons), 1)
+                    self.assertEqual(buttons[0].key, "download_comparison_pdf")
+                    self.assertTrue(buttons[0].proto.ignore_rerun)
+                    self.assertTrue(buttons[0].proto.url.endswith(".pdf"))
+                    self.assertEqual(app.session_state["comparison"], current)
+            self.navigate(app, "Explorar")
+            self.navigate(app, "Comparar")
+            self.assertEqual(app.multiselect(key="compare_picker").value, selected_ids)
+            self.assertEqual(app.session_state["comparison"], selected_ids)
+            self.assertEqual(app.get("download_button")[0].key, "download_comparison_pdf")
+
+    def test_comparison_preview_escapes_catalogue_text_and_matches_selection(self):
+        product = copy.deepcopy(DEMO_PRODUCTS[0])
+        product.update({"id": "test-markup", "nombre": 'Volante <script>prueba</script> & "control"'})
+        product["specs_tecnicas"] = {"tipo": '<b>Correa & engranaje</b>', "fuerza_feedback": False}
+        self.response.data = [product, copy.deepcopy(DEMO_PRODUCTS[1])]
+        app = self.app()
+        self.navigate(app, "Comparar")
+        app.multiselect(key="compare_picker").set_value(["test-markup"]).run()
+        self.assertHealthy(app)
+        previews = [item.value for item in app.markdown if 'class="comparison-preview"' in item.value]
+        self.assertEqual(len(previews), 1)
+        preview = previews[0]
+        self.assertIn('Volante &lt;script&gt;prueba&lt;/script&gt; &amp; &quot;control&quot;', preview)
+        self.assertIn('&lt;b&gt;Correa &amp; engranaje&lt;/b&gt;', preview)
+        self.assertNotIn("<script>", preview)
+        self.assertNotIn("Thrustmaster T300 RS", preview)
+        self.assertIn("Force feedback", preview)
+        self.assertIn("<td>No</td>", preview)
 
     def test_comparison_limit_does_not_silently_replace_selection(self):
         app = self.app()
