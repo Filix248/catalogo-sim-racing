@@ -78,6 +78,64 @@ class AppInteractionTests(unittest.TestCase):
         self.assertFalse(app.session_state["only_saved"])
         self.assertEqual(len(self.visible_ids(app)), len(DEMO_PRODUCTS))
 
+    def test_quick_category_keeps_other_filters_and_collections(self):
+        app = self.app()
+        app.button(key="save_catalogue_demo-4060").click().run()
+        app.button(key="compare_catalogue_demo-g923").click().run()
+        app.text_input(key="catalogue_query").set_value("nvidia").run()
+        app.selectbox(key="catalogue_budget").select("Mid-range").run()
+        app.selectbox(key="catalogue_category").select("Volante").run()
+        app.toggle(key="only_saved").set_value(True).run()
+        self.assertEqual(self.visible_ids(app), [])
+
+        app.button(key="browse_GPU").click().run()
+
+        self.assertHealthy(app)
+        self.assertEqual(app.selectbox(key="catalogue_category").value, "GPU")
+        self.assertEqual(app.session_state["catalogue_query"], "nvidia")
+        self.assertEqual(app.session_state["catalogue_budget"], "Mid-range")
+        self.assertTrue(app.session_state["only_saved"])
+        self.assertEqual(self.visible_ids(app), ["demo-4060"])
+        self.assertEqual(app.session_state["saved"], ["demo-4060"])
+        self.assertEqual(app.session_state["comparison"], ["demo-g923"])
+
+    def test_browse_all_restores_filters_and_quick_filtered_presentation(self):
+        app = self.app()
+        app.button(key="save_catalogue_demo-g923").click().run()
+        app.button(key="compare_catalogue_demo-4060").click().run()
+        app.text_input(key="catalogue_query").set_value("nvidia").run()
+        app.selectbox(key="catalogue_budget").select("Mid-range").run()
+        app.button(key="browse_GPU").click().run()
+        app.toggle(key="only_saved").set_value(True).run()
+        self.assertEqual(self.visible_ids(app), [])
+
+        app.button(key="browse_all").click().run()
+
+        self.assertHealthy(app)
+        self.assertEqual(app.session_state["catalogue_query"], "")
+        self.assertEqual(app.selectbox(key="catalogue_category").value, "Todas")
+        self.assertEqual(app.selectbox(key="catalogue_budget").value, "Todos")
+        self.assertFalse(app.toggle(key="only_saved").value)
+        self.assertEqual(set(self.visible_ids(app)), {product["id"] for product in DEMO_PRODUCTS})
+        self.assertEqual(app.session_state["saved"], ["demo-g923"])
+        self.assertEqual(app.session_state["comparison"], ["demo-4060"])
+
+        app.button(key="browse_GPU").click().run()
+        app.button(key="detail_catalogue_demo-4060").click().run()
+        self.assertHealthy(app)
+        dialog = app.get("dialog")[0]
+        self.assertTrue(dialog.proto.dialog.is_open)
+        rendered = unescape("\n".join(item.value for item in dialog.get("markdown")))
+        self.assertIn("NVIDIA RTX 4060", rendered)
+        self.assertNotIn("Logitech G923", rendered)
+        app.button(key="close_detail_demo-4060").click().run()
+        self.assertHealthy(app)
+        self.assertEqual(list(app.get("dialog")), [])
+        self.assertEqual(app.selectbox(key="catalogue_category").value, "GPU")
+        self.assertEqual(set(self.visible_ids(app)), {"demo-4060", "demo-4070"})
+        self.assertEqual(app.session_state["saved"], ["demo-g923"])
+        self.assertEqual(app.session_state["comparison"], ["demo-4060"])
+
     def test_saved_toggle_tracks_saving_and_removing_last_product(self):
         app = self.app()
         app.button(key="save_catalogue_demo-g923").click().run()
