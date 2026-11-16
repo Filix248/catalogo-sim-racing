@@ -18,7 +18,26 @@ from catalogo import (
 ROOT = Path(__file__).resolve().parent
 BUDGETS = {"Todos": "Todos los niveles", "Entry": "Primera parrilla", "Mid-range": "Siguiente nivel", "Enthusiast": "Máxima inmersión"}
 PLATFORMS = ["PC", "PlayStation", "Xbox", "Laptop con eGPU"]
-SIMULATORS = ["Assetto Corsa", "Forza Horizon", "iRacing"]
+SIMULATORS = [
+    "Assetto Corsa",
+    "Assetto Corsa Competizione",
+    "Assetto Corsa EVO",
+    "Assetto Corsa Rally",
+    "Automobilista 2",
+    "iRacing",
+    "Le Mans Ultimate",
+    "RaceRoom Racing Experience",
+    "rFactor 2",
+    "Gran Turismo 7",
+    "Forza Motorsport",
+    "Forza Horizon",
+    "EA SPORTS F1 25",
+    "EA SPORTS WRC",
+    "DiRT Rally 2.0",
+    "BeamNG.drive",
+    "Euro Truck Simulator 2",
+    "American Truck Simulator",
+]
 RESOLUTIONS = ["1080p", "1440p", "4K", "Ultrawide"]
 
 st.set_page_config(page_title="APEX / LAB · Tu próximo setup", page_icon="🏁", layout="wide")
@@ -251,7 +270,7 @@ elif navigation == "Mi setup":
         a, b = st.columns(2)
         with a:
             platform = st.selectbox("¿Dónde vas a correr?", PLATFORMS, key="setup_platform")
-            simulator = st.selectbox("Simulador principal", SIMULATORS, key="setup_simulator")
+            simulator = st.selectbox("Simulador principal", SIMULATORS, key="setup_simulator", help="Escribe dentro de la lista para buscar tu juego. La compatibilidad depende de tu plataforma, del juego y de la variante exacta del hardware.")
         with b:
             budget = st.selectbox("Nivel de setup", ["Entry", "Mid-range", "Enthusiast"], format_func=BUDGETS.get, key="setup_budget")
             resolution = st.selectbox("Resolución objetivo", RESOLUTIONS, key="setup_resolution")
