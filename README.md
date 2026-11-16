@@ -10,9 +10,15 @@ El catálogo permite explorar hardware, guardar productos durante la sesión, co
 
 La ampliación revisada el 16 de noviembre de 2026 reúne **16 productos de Amazon.com en siete categorías**: seis volantes, dos palancas de cambios, una pedalera, un soporte, un cockpit, dos GPU y tres monitores. Las fichas identifican el modelo o variante, el contenido del conjunto y los requisitos documentados. El kit Logitech G923 existente se mantiene identificado como reacondicionado.
 
-Cada producto tiene descripción editorial, advertencias cuando necesita otro componente, enlaces a fuentes del fabricante y fecha de revisión. Los requisitos se muestran junto al botón de compra; el detalle permite consultar el contenido y las fuentes. No se muestran precios, existencias, puntuaciones, reseñas ni fotografías de Amazon.
+Cada producto tiene descripción editorial, advertencias cuando necesita otro componente, enlaces a fuentes del fabricante y fecha de revisión. Las tarjetas resumen el modelo y sus características principales; **Ver presentación** abre una ficha modal individual. La ficha reúne la vista ampliada, las especificaciones, el contenido del conjunto, los requisitos completos y el enlace de compra de Amazon. Los avisos de compatibilidad y de componentes no incluidos acompañan al botón de compra. No se muestran precios, existencias, puntuaciones ni reseñas.
 
-Las imágenes son ilustraciones originales de categorías y no representan el aspecto exacto de cada modelo. A las cuatro ilustraciones iniciales se añadieron `pedals.svg`, `shifter.svg`, `stand.svg` y `cockpit.svg` para las nuevas categorías.
+Las imágenes actuales son ilustraciones originales de categorías y no fotografías exactas de cada modelo. A las cuatro ilustraciones iniciales se añadieron `pedals.svg`, `shifter.svg`, `stand.svg` y `cockpit.svg` para las nuevas categorías. Cada presentación ofrece un enlace para ver el modelo y sus fotos en la web del fabricante. No se copiaron fotografías de fabricantes sin un permiso adecuado.
+
+## Presentación visual
+
+El catálogo adapta la cuadrícula a tres tarjetas por fila en pantallas amplias, dos en tamaños intermedios y una en móviles. Cada tarjeta prioriza la imagen, el nombre, la variante y los datos destacados. La presentación individual permite consultar el detalle sin perder los filtros, los guardados ni la comparación de la sesión.
+
+Las fotos reales podrán integrarse cuando se disponga de una licencia válida para ese uso. Otra vía es el recurso [Images de la API oficial de Amazon](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/images), que proporciona imágenes principales y variantes en distintos tamaños. Su incorporación requiere acceso a la API, configuración y cumplimiento de la licencia aplicable; no está activada por el mero hecho de añadir un enlace de afiliado.
 
 Los enlaces de Amazon.com utilizan el identificador público de seguimiento verificado `apexlabsimrac-20`. La web incluye el aviso de afiliación general y otro junto a cada enlace de compra. La condición de la oferta, la disponibilidad, los gastos de envío y la entrega a Chile se consultan en Amazon al comprar.
 

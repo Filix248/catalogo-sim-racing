@@ -161,35 +161,128 @@ def editorial_copy(product: dict) -> str:
     return "Una pieza para tu setup. Revisa sus conexiones y especificaciones."
 
 
+def manufacturer_sources(product: dict) -> list[str]:
+    """Link to reviewed manufacturer pages without copying their imagery."""
+    details = product.get("specs_tecnicas", {})
+    candidates = metadata_items(details.get("fuentes_fabricante") or details.get("fuentes") or details.get("fuente"))
+    domains = ("logitechg.com", "logitech.com", "thrustmaster.com", "nextlevelracing.com", "lg.com", "asus.com", "msi.com")
+    result = []
+    for candidate in candidates:
+        try:
+            parsed = urlsplit(candidate)
+            host = (parsed.hostname or "").casefold()
+            if parsed.scheme != "https" or parsed.username or parsed.password or parsed.port not in {None, 443} or any(char.isspace() for char in candidate):
+                continue
+            if any(host == domain or host.endswith("." + domain) for domain in domains):
+                result.append(candidate)
+        except ValueError:
+            continue
+    return list(dict.fromkeys(result))
+
+
+def product_badges(product: dict) -> str:
+    details = product.get("specs_tecnicas", {})
+    badges = metadata_items(details.get("estado")) + metadata_items(details.get("plataformas"))
+    return '<div class="product-badges">' + "".join(f'<span>{escape(value)}</span>' for value in badges) + '</div>' if badges else ""
+
+
+def product_requirements(product: dict) -> None:
+    shown = set()
+    for field, label in [("requiere", "Requiere"), ("advertencia", "Antes de comprar")]:
+        value = metadata_text(product.get("specs_tecnicas", {}).get(field))
+        if value and value not in shown:
+            html(f'<div class="detail-notice product-requirement"><strong>{label}</strong><p>{escape(value)}</p></div>')
+            shown.add(value)
+
+
+def purchase_link(product: dict) -> None:
+    url = safe_amazon_url(product.get("url_afiliado"))
+    if url:
+        st.link_button("Consultar producto en Amazon ↗", url, type="primary", width="stretch")
+        html('<p class="affiliate-link-disclosure"><strong>Enlace de afiliado.</strong> Puedo recibir una comisión por compras que cumplan los requisitos aplicables.</p>')
+        st.caption("Consulta precio, variante, condición y disponibilidad en Amazon.")
+    else:
+        st.button("Enlace pendiente", disabled=True, key=f'pending_detail_{product["id"]}', width="stretch")
+
+
+def product_specification(product: dict) -> None:
+    details = product.get("specs_tecnicas", {})
+    st.write(f'**Categoría:** {product["categoria"]}')
+    fields = [
+        ("modelo", "Modelo"), ("estado", "Condición"), ("plataformas_detalle", "Plataformas registradas"),
+        ("incluye", "Incluye"), ("conexiones", "Conexiones"), ("compatibilidad_anclaje", "Anclaje"),
+        ("memoria", "Tipo de memoria"), ("panel", "Panel"), ("formato", "Formato"),
+        ("curvatura", "Curvatura"), ("marchas", "Marchas"), ("freno", "Freno"),
+        ("sensores", "Sensores"), ("dimensiones_mm", "Dimensiones en mm"),
+        ("alimentacion", "Alimentación"), ("conectores", "Conectores"), ("ajustes", "Ajustes"),
+        ("nota_variante", "Variante"), ("fecha_revision", "Revisión de la ficha"),
+    ]
+    for label, value in spec_summary(product):
+        st.write(f"**{label}:** {value}")
+    for field, label in fields:
+        value = metadata_text(details.get(field))
+        if value:
+            st.write(f"**{label}:** {value}")
+    for field, label, unit in [("pulgadas", "Diagonal", ' pulgadas'), ("numero_pedales", "Pedales", ""), ("hz_oc", "Frecuencia con overclock", " Hz")]:
+        value = details.get(field)
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            st.write(f"**{label}:** {value}{unit}")
+    for source_url in manufacturer_sources(product):
+        host = urlsplit(source_url).hostname or "fabricante"
+        st.link_button(f"Fuente: {host.removeprefix('www.')}", source_url, width="stretch")
+    st.caption("Características registradas por el editor a partir de las fuentes enlazadas. Confirma la variante exacta y sus requisitos antes de comprar.")
+
+
+@st.dialog("Presentación del producto", width="large", on_dismiss="rerun")
+def product_presentation(product: dict, assessment: dict | None = None) -> None:
+    details = product.get("specs_tecnicas", {})
+    with st.container(key="product_dialog"):
+        html(f'<header class="detail-hero"><div class="detail-kicker">{escape(product["categoria"])} · {escape(BUDGETS.get(product["nivel_presupuesto"], product["nivel_presupuesto"]))}</div><h2 class="detail-title">{escape(product["nombre"])}</h2>{product_badges(product)}</header>')
+        visual, information = st.columns([1.05, 1], gap="large")
+        with visual:
+            html(f'<div class="detail-stage"><img src="{asset(category_asset(product))}" alt="Ilustración de categoría {escape(product["categoria"])}"></div>')
+            html('<p class="gallery-meta">Ilustración de categoría; no representa el aspecto exacto de este modelo.</p>')
+            official_sources = manufacturer_sources(product)
+            if official_sources:
+                st.link_button("Ver fotos y modelo en el fabricante ↗", official_sources[0], width="stretch")
+            includes = metadata_items(details.get("incluye"))
+            if includes:
+                html('<p class="detail-section-label">LO QUE INCLUYE</p><ul class="detail-includes">' + "".join(f'<li>{escape(item)}</li>' for item in includes) + '</ul>')
+        with information:
+            html(f'<p class="detail-copy">{escape(editorial_copy(product))}</p>')
+            facts = spec_summary(product)
+            if facts:
+                html('<div class="detail-facts">' + "".join(f'<div><span>{escape(label)}</span><strong>{escape(value)}</strong></div>' for label, value in facts) + '</div>')
+            if assessment:
+                html(f'<div class="compatibility {escape(assessment["status"])}">● {escape(assessment["label"])}</div>')
+                for reason in assessment.get("reasons", []):
+                    st.caption(reason)
+            product_requirements(product)
+            purchase_link(product)
+        with st.expander("Ficha técnica y fuentes"):
+            product_specification(product)
+            if assessment:
+                for note in assessment.get("notes", []):
+                    st.caption(note)
+        if st.button("Volver al catálogo", key=f'close_detail_{product["id"]}', width="stretch"):
+            st.rerun()
+
+
 def product_card(product: dict, context: str, *, assessment: dict | None = None) -> None:
     pid = str(product["id"])
     with st.container(border=True, key=f"card_{context}_{pid}"):
         html(f'<div class="product-art"><span class="category-label">{escape(product["categoria"])}</span><img src="{asset(category_asset(product))}" alt="Ilustración de categoría {escape(product["categoria"])}"><span class="art-caption">ILUSTRACIÓN DE CATEGORÍA</span></div>')
-        html(f'<div class="product-level">{escape(BUDGETS.get(product["nivel_presupuesto"], product["nivel_presupuesto"]))}</div><h3 class="product-title">{escape(product["nombre"])}</h3><p class="product-description">{escape(editorial_copy(product))}</p>')
+        html(f'<div class="product-level">{escape(BUDGETS.get(product["nivel_presupuesto"], product["nivel_presupuesto"]))}</div><h3 class="product-title">{escape(product["nombre"])}</h3>')
+        html(product_badges(product))
+        html(f'<p class="product-description">{escape(editorial_copy(product))}</p>')
         specs = spec_summary(product)
         html('<div class="spec-pills">' + "".join(f'<span>{escape(("Force feedback" if value == "Sí" else "Sin force feedback") if label == "Force feedback" else value)}</span>' for label, value in specs[:3]) + '</div>')
         if assessment:
             html(f'<div class="compatibility {escape(assessment["status"])}">● {escape(assessment["label"])}</div>')
             for reason in assessment.get("reasons", [])[:2]:
                 st.caption(reason)
-        else:
-            html('<div class="compatibility unknown">◌ Compatibilidad por verificar</div>')
-        details = product.get("specs_tecnicas", {})
-        shown_requirements = set()
-        for field, label in [("requiere", "Requiere"), ("advertencia", "Antes de comprar")]:
-            requirement = metadata_text(details.get(field))
-            if requirement and requirement not in shown_requirements:
-                # Show the full requirement beside the CTA; a hidden or truncated
-                # warning could make an accessory look usable on its own.
-                html(f'<p class="product-description product-requirement"><strong>{label}:</strong> {escape(requirement)}</p>')
-                shown_requirements.add(requirement)
-        url = safe_amazon_url(product.get("url_afiliado"))
-        if url:
-            st.link_button("Consultar en Amazon ↗", url, type="primary", width="stretch")
-            html('<p class="affiliate-link-disclosure"><strong>Enlace de afiliado.</strong> Puedo recibir una comisión por las compras que cumplen los requisitos aplicables. Consulta precio, variante y disponibilidad en Amazon.</p>')
-        else:
-            st.button("Enlace pendiente", disabled=True, key=f"pending_{context}_{pid}", width="stretch")
-            st.caption("Este producto aún no tiene un enlace de compra válido.")
+        if st.button("Ver presentación →", type="primary", key=f"detail_{context}_{pid}", width="stretch"):
+            product_presentation(product, assessment)
         actions = st.columns(2)
         saved = pid in st.session_state["saved"]
         if actions[0].button("♥ Guardado" if saved else "♡ Guardar", key=f"save_{context}_{pid}", width="stretch"):
@@ -207,43 +300,15 @@ def product_card(product: dict, context: str, *, assessment: dict | None = None)
             else:
                 st.toast("Puedes comparar hasta 3 productos. Retira uno en Comparar.", icon="ℹ️")
             st.rerun()
-        with st.expander("Ver ficha y comprobaciones"):
-            st.write(f'**Categoría:** {product["categoria"]}')
-            for label, value in specs:
-                st.write(f"**{label}:** {value}")
-            platforms = metadata_text(details.get("plataformas"))
-            if platforms:
-                st.write("**Plataformas registradas:** " + platforms)
-            for field, label in [("estado", "Condición"), ("incluye", "Incluye"), ("requiere", "Requiere"), ("advertencia", "Antes de comprar"), ("conexiones", "Conexiones"), ("compatibilidad_anclaje", "Compatibilidad del anclaje"), ("fecha_revision", "Revisión de la ficha")]:
-                value = metadata_text(details.get(field))
-                if value:
-                    st.write(f"**{label}:** {value}")
-            sources = metadata_items(details.get("fuentes_fabricante") or details.get("fuentes") or details.get("fuente"))
-            displayed_sources = set()
-            for source_url in sources:
-                try:
-                    parsed = urlsplit(source_url)
-                    host = (parsed.hostname or "").casefold()
-                    if parsed.scheme != "https" or not host or parsed.username or parsed.password or "amazon" in host.split(".") or host in {"amzn.to", "link.amazon"} or any(char.isspace() for char in source_url):
-                        continue
-                except ValueError:
-                    continue
-                if source_url not in displayed_sources:
-                    st.link_button(f"Documentación: {host.removeprefix('www.')}", source_url, width="stretch")
-                    displayed_sources.add(source_url)
-            st.caption("Datos del catálogo del editor; no equivalen a una prueba física ni a una certificación del fabricante.")
-            if assessment:
-                for note in assessment.get("notes", []):
-                    st.caption(note)
-            st.caption("Comprueba conectores, medidas, variante exacta y soporte del fabricante antes de comprar.")
 
 
 def card_grid(items: list[dict], context: str, assessments: dict | None = None) -> None:
-    for start in range(0, len(items), 3):
-        columns = st.columns(3, gap="medium")
-        for col, product in zip(columns, items[start:start + 3]):
-            with col:
-                product_card(product, context, assessment=(assessments or {}).get(str(product["id"])))
+    with st.container(key="catalogue_grid"):
+        for start in range(0, len(items), 3):
+            columns = st.columns(3, gap="medium")
+            for col, product in zip(columns, items[start:start + 3]):
+                with col:
+                    product_card(product, context, assessment=(assessments or {}).get(str(product["id"])))
 
 
 def section_heading(kicker: str, title: str, description: str = "") -> None:
