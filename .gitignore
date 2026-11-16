@@ -8,3 +8,13 @@ __pycache__/
 .pytest_cache/
 para-subir-a-github/
 catalogo-apex-github.zip
+operaciones-locales/
+propuesta-*.json
+catalogo-amazon-ampliado.json
+*.log
+respaldo-*.json
+catalogo-volantes-actual.json
+g923-enlace-publicado.json
+enlaces-verificados.json
+*.jpg
+*.png

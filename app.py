@@ -7,6 +7,7 @@ import json
 import os
 from html import escape
 from pathlib import Path
+from urllib.parse import urlsplit
 
 import streamlit as st
 
@@ -105,12 +106,24 @@ def reset_filters() -> None:
     set_collection("Todos")
 
 
+def metadata_items(value) -> list[str]:
+    """Keep readable catalogue text without rendering nested objects."""
+    values = [value] if isinstance(value, str) else value if isinstance(value, list) else []
+    return list(dict.fromkeys(item.strip() for item in values if isinstance(item, str) and item.strip()))
+
+
+def metadata_text(value) -> str:
+    return "; ".join(metadata_items(value))
+
+
 def spec_summary(product: dict) -> list[tuple[str, str]]:
     specs = product.get("specs_tecnicas", {})
     result = []
-    for field, label, suffix in [("tipo", "Transmisión", ""), ("vram_gb", "Memoria", " GB VRAM"), ("hz", "Frecuencia", " Hz"), ("resolucion_ideal", "Objetivo registrado", "")]:
+    for field, label, suffix in [("tipo", "Tipo", ""), ("vram_gb", "Memoria", " GB VRAM"), ("hz", "Frecuencia", " Hz"), ("resolucion", "Resolución", ""), ("conexion", "Conexión", ""), ("resolucion_ideal", "Objetivo registrado", "")]:
         value = specs.get(field)
-        if value is not None and value != "":
+        if isinstance(value, str) and value.strip():
+            result.append((label, f"{value.strip()}{suffix}"))
+        elif field in {"vram_gb", "hz"} and isinstance(value, (int, float)) and not isinstance(value, bool):
             result.append((label, f"{value}{suffix}"))
     if isinstance(specs.get("fuerza_feedback"), bool):
         result.append(("Force feedback", "Sí" if specs["fuerza_feedback"] else "No"))
@@ -119,6 +132,14 @@ def spec_summary(product: dict) -> list[tuple[str, str]]:
 
 def category_asset(product: dict) -> str:
     category = product.get("categoria", "").casefold()
+    if "pedal" in category:
+        return "pedals.svg"
+    if "palanca" in category:
+        return "shifter.svg"
+    if "cockpit" in category:
+        return "cockpit.svg"
+    if "soporte" in category:
+        return "stand.svg"
     if "gpu" in category or "gráfica" in category:
         return "gpu.svg"
     if "monitor" in category or "pantalla" in category:
@@ -127,6 +148,9 @@ def category_asset(product: dict) -> str:
 
 
 def editorial_copy(product: dict) -> str:
+    description = product.get("specs_tecnicas", {}).get("descripcion_editorial")
+    if isinstance(description, str) and description.strip():
+        return description.strip()
     category = product.get("categoria", "").casefold()
     if "volante" in category:
         return "Siente la pista. Revisa la variante y su plataforma antes de elegir."
@@ -150,6 +174,15 @@ def product_card(product: dict, context: str, *, assessment: dict | None = None)
                 st.caption(reason)
         else:
             html('<div class="compatibility unknown">◌ Compatibilidad por verificar</div>')
+        details = product.get("specs_tecnicas", {})
+        shown_requirements = set()
+        for field, label in [("requiere", "Requiere"), ("advertencia", "Antes de comprar")]:
+            requirement = metadata_text(details.get(field))
+            if requirement and requirement not in shown_requirements:
+                # Show the full requirement beside the CTA; a hidden or truncated
+                # warning could make an accessory look usable on its own.
+                html(f'<p class="product-description product-requirement"><strong>{label}:</strong> {escape(requirement)}</p>')
+                shown_requirements.add(requirement)
         url = safe_amazon_url(product.get("url_afiliado"))
         if url:
             st.link_button("Consultar en Amazon ↗", url, type="primary", width="stretch")
@@ -178,9 +211,26 @@ def product_card(product: dict, context: str, *, assessment: dict | None = None)
             st.write(f'**Categoría:** {product["categoria"]}')
             for label, value in specs:
                 st.write(f"**{label}:** {value}")
-            platforms = product.get("specs_tecnicas", {}).get("plataformas")
+            platforms = metadata_text(details.get("plataformas"))
             if platforms:
-                st.write("**Plataformas registradas:** " + (", ".join(str(p) for p in platforms) if isinstance(platforms, list) else str(platforms)))
+                st.write("**Plataformas registradas:** " + platforms)
+            for field, label in [("estado", "Condición"), ("incluye", "Incluye"), ("requiere", "Requiere"), ("advertencia", "Antes de comprar"), ("conexiones", "Conexiones"), ("compatibilidad_anclaje", "Compatibilidad del anclaje"), ("fecha_revision", "Revisión de la ficha")]:
+                value = metadata_text(details.get(field))
+                if value:
+                    st.write(f"**{label}:** {value}")
+            sources = metadata_items(details.get("fuentes_fabricante") or details.get("fuentes") or details.get("fuente"))
+            displayed_sources = set()
+            for source_url in sources:
+                try:
+                    parsed = urlsplit(source_url)
+                    host = (parsed.hostname or "").casefold()
+                    if parsed.scheme != "https" or not host or parsed.username or parsed.password or "amazon" in host.split(".") or host in {"amzn.to", "link.amazon"} or any(char.isspace() for char in source_url):
+                        continue
+                except ValueError:
+                    continue
+                if source_url not in displayed_sources:
+                    st.link_button(f"Documentación: {host.removeprefix('www.')}", source_url, width="stretch")
+                    displayed_sources.add(source_url)
             st.caption("Datos del catálogo del editor; no equivalen a una prueba física ni a una certificación del fabricante.")
             if assessment:
                 for note in assessment.get("notes", []):
@@ -311,7 +361,7 @@ elif navigation == "Comparar":
             with column:
                 product_card(product, "comparison")
         rows = []
-        field_labels = [("tipo", "Transmisión"), ("fuerza_feedback", "Force feedback"), ("vram_gb", "VRAM (GB)"), ("hz", "Frecuencia (Hz)"), ("resolucion_ideal", "Objetivo registrado"), ("plataformas", "Plataformas registradas")]
+        field_labels = [("tipo", "Tipo"), ("fuerza_feedback", "Force feedback"), ("vram_gb", "VRAM (GB)"), ("hz", "Frecuencia (Hz)"), ("resolucion", "Resolución"), ("conexion", "Conexión"), ("resolucion_ideal", "Objetivo registrado"), ("plataformas", "Plataformas registradas")]
         def comparison_value(value):
             if value is None or value == "":
                 return "Sin datos"
