@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Pedales de sim racing</title>
+  <desc id="desc">Ilustración genérica de un conjunto de tres pedales metálicos montados sobre una base oscura.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#527FFF" stop-opacity=".2"/><stop offset="1" stop-color="#527FFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="deck" x1="145" y1="162" x2="424" y2="280" gradientUnits="userSpaceOnUse"><stop stop-color="#41546E"/><stop offset=".45" stop-color="#1D2C43"/><stop offset="1" stop-color="#102037"/></linearGradient>
+    <linearGradient id="metal" x1="0" y1="-125" x2="25" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#71859F"/><stop offset=".4" stop-color="#344B69"/><stop offset="1" stop-color="#1A2A40"/></linearGradient>
+    <linearGradient id="face" x1="-24" y1="-146" x2="26" y2="-69" gradientUnits="userSpaceOnUse"><stop stop-color="#8093AC"/><stop offset=".5" stop-color="#405773"/><stop offset="1" stop-color="#233B58"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+    <g id="pedal">
+      <path d="m-19-14 19-8 26 11-18 11z" fill="#0B1423" stroke="#587091"/>
+      <path d="m-8-17 5-27 4-51 13-4 7 66-7 26z" fill="url(#metal)" stroke="#8A9CB5" stroke-width="1.5"/>
+      <path d="m4-45 13 5m-16-3 14 5" stroke="#11243B" stroke-width="3"/>
+      <path d="m-24-127 40-15 17 14-2 48-44 17-13-13z" fill="#13243A" stroke="#8DA3C0" stroke-width="1.5"/>
+      <path d="m-24-127 40-15 3 47-42 16z" fill="url(#face)" stroke="#A1B5D0"/>
+      <path d="m-24-127 11 48-10 4m42-66 14 14" stroke="#243F61" stroke-width="2"/>
+      <path d="m-14-122 24-9m-23 19 24-9m-22 19 23-9m-21 19 22-9" stroke="#142940" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="-14" cy="-127" r="1.5" fill="#C1D1E6"/><circle cx="9" cy="-88" r="1.5" fill="#C1D1E6"/>
+      <circle cx="8" cy="-12" r="6" fill="#1D314C" stroke="#90ACCf"/><circle cx="8" cy="-12" r="2" fill="#89B3FF"/>
+    </g>
+  </defs>
+  <ellipse cx="302" cy="186" rx="235" ry="145" fill="url(#glow)"/>
+  <ellipse cx="305" cy="282" rx="172" ry="15" fill="#02050A" opacity=".65" filter="url(#blur)"/>
+  <path d="m131 187 126-60 218 67-121 83z" fill="url(#deck)" stroke="#7E96B7" stroke-width="1.5"/>
+  <path d="m131 187 223 90v15l-223-91z" fill="#122238" stroke="#4A6284"/>
+  <path d="m354 277 121-83v17l-121 81z" fill="#0A1728" stroke="#536E94"/>
+  <path d="m146 189 110-51 201 60-106 65z" fill="#17263B" stroke="#3A5271"/>
+  <path d="m150 195 192 74" stroke="#81ADFF" stroke-width="2"/>
+  <path d="m171 209 159 60m-140-72 156 57m-136-69 154 55" stroke="#344A68" stroke-width="2"/>
+  <use href="#pedal" transform="translate(228 210)"/>
+  <use href="#pedal" transform="translate(312 226) scale(1.08)"/>
+  <use href="#pedal" transform="translate(395 229) scale(.87 1.12)"/>
+  <path d="m150 191 1 10m297 7 11-7" stroke="#A9C2E4" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="157" cy="191" r="2" fill="#A6BBDD"/><circle cx="345" cy="271" r="2" fill="#A6BBDD"/><circle cx="456" cy="199" r="2" fill="#A6BBDD"/>
+</svg>

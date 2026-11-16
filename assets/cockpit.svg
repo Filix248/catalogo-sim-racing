@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Cockpit de sim racing</title>
+  <desc id="desc">Ilustración genérica de un cockpit con asiento deportivo, estructura tubular y bandejas vacías para volante y pedales.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#527FFF" stop-opacity=".2"/><stop offset="1" stop-color="#527FFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="seat" x1="147" y1="70" x2="271" y2="240" gradientUnits="userSpaceOnUse"><stop stop-color="#516682"/><stop offset=".4" stop-color="#243950"/><stop offset="1" stop-color="#0E1C30"/></linearGradient>
+    <linearGradient id="bolster" x1="174" y1="80" x2="249" y2="251" gradientUnits="userSpaceOnUse"><stop stop-color="#7690B1"/><stop offset=".2" stop-color="#385272"/><stop offset="1" stop-color="#172C45"/></linearGradient>
+    <linearGradient id="plate" x1="310" y1="105" x2="468" y2="239" gradientUnits="userSpaceOnUse"><stop stop-color="#506988"/><stop offset=".5" stop-color="#263F5D"/><stop offset="1" stop-color="#10213A"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <ellipse cx="300" cy="180" rx="240" ry="148" fill="url(#glow)"/>
+  <ellipse cx="302" cy="287" rx="204" ry="14" fill="#02050A" opacity=".65" filter="url(#blur)"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="m135 263 121 32 247-63m-340 17 114-57 217 30" stroke="#081321" stroke-width="15"/>
+    <path d="m135 260 121 32 247-63m-340 17 114-57 217 30" stroke="#466282" stroke-width="9"/>
+    <path d="m135 258 121 32 247-63m-340 17 114-57 217 30" stroke="#95ADCE" stroke-opacity=".5" stroke-width="2"/>
+    <path d="m191 270 26-51m76 56-8-53m59 42-3-135m93 111-42-119" stroke="#0A1627" stroke-width="15"/>
+    <path d="m191 267 26-51m76 56-8-53m59 42-3-135m93 111-42-119" stroke="#3C597B" stroke-width="9"/>
+    <path d="m190 265 24-48m78 53-8-53m59 40-3-130m93 108-42-115" stroke="#86A3CA" stroke-width="2"/>
+  </g>
+  <path d="m147 77 34-25 37 9 16 27-3 77 35 25 37 9 9 35-26 17-65-16-45-31-18-62z" fill="#0C1B2D" stroke="#718CAF" stroke-width="1.5"/>
+  <path d="m147 77 38-18 28 7 15 25-3 75 29 27-38 22-38-23-16-55z" fill="url(#seat)" stroke="#7D98BB"/>
+  <path d="m165 85 22-14 20 5 10 20-4 67 28 29-24 14-28-24-15-49z" fill="#14283F" stroke="#4E6F97"/>
+  <path d="m158 83 11 9 14 70 30 36 7 20-18-6-30-32-15-52z" fill="url(#bolster)" stroke="#7A99BF"/>
+  <path d="m211 79 14 13-2 66 25 32-14 10-27-30 7-66z" fill="url(#bolster)" stroke="#6689B2"/>
+  <path d="m184 182 34 22 40-18 43 15 4 28-27 14-65-16-34-25z" fill="url(#seat)" stroke="#7894B8"/>
+  <path d="m204 203 16 10 44-17 27 9-12 22-58-10z" fill="#1A304B" stroke="#416187"/>
+  <path d="m178 94 8-5 10 3v10l-9 3-8-3zm-2 29 33 10m-29 0 28 10m-25 0 25 10" stroke="#7DA6E8" stroke-width="1.5"/>
+  <path d="m165 92 11 67 29 38m7-95-6 61 22 28" stroke="#87A8D9" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="2 4"/>
+  <path d="m308 112 61-24 72 24-58 29z" fill="url(#plate)" stroke="#91A9C8" stroke-width="1.5"/>
+  <path d="m308 112 75 29 58-29v9l-58 30-75-29z" fill="#142B45" stroke="#5A789F"/>
+  <path d="m322 112 47-18 58 20-45 21z" stroke="#6B8DBB"/>
+  <path d="m332 112 46 17" stroke="#8DB5F7" stroke-width="2"/>
+  <path d="m402 224 42-37 65 19-43 39z" fill="url(#plate)" stroke="#8EA9CD" stroke-width="1.5"/>
+  <path d="m402 224 64 21 43-39v11l-43 38-64-21z" fill="#11253D" stroke="#58759E"/>
+  <path d="m419 222 27-25 45 13-29 25z" stroke="#577EA9"/>
+  <path d="m435 216 27 9m-17-18 27 9" stroke="#83A7DA" stroke-width="2"/>
+  <path d="m287 190 21-6 22 10m-22-10 12-24" stroke="#55739A" stroke-width="7" stroke-linecap="round"/>
+  <path d="m304 157 27-12 30 9-28 13z" fill="url(#plate)" stroke="#8AA6CA"/>
+  <circle cx="343" cy="206" r="6" fill="#122841" stroke="#8AA7CD"/><circle cx="343" cy="206" r="2" fill="#92B7F8"/>
+  <path d="m130 266 19 4m100 28 17 4m229-67 17-4" stroke="#0A1423" stroke-width="7" stroke-linecap="round"/>
+</svg>

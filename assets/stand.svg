@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="340" viewBox="0 0 600 340" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">Soporte para sim racing</title>
+  <desc id="desc">Ilustración genérica de un soporte tubular con bandejas para volante, pedales y palanca, sin equipos electrónicos.</desc>
+  <defs>
+    <radialGradient id="glow"><stop stop-color="#527FFF" stop-opacity=".2"/><stop offset="1" stop-color="#527FFF" stop-opacity="0"/></radialGradient>
+    <linearGradient id="plate" x1="224" y1="64" x2="403" y2="242" gradientUnits="userSpaceOnUse"><stop stop-color="#4C6383"/><stop offset=".4" stop-color="#243B59"/><stop offset="1" stop-color="#0C1A2D"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <ellipse cx="300" cy="180" rx="230" ry="148" fill="url(#glow)"/>
+  <ellipse cx="305" cy="282" rx="171" ry="14" fill="#02050A" opacity=".65" filter="url(#blur)"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="m178 264 142 30 132-61m-268 25 131-67 128 32" stroke="#0A1423" stroke-width="15"/>
+    <path d="m178 260 142 30 132-61m-268 25 131-67 128 32" stroke="#4E6688" stroke-width="10"/>
+    <path d="m178 258 142 30 132-61m-267 25 130-65 128 32" stroke="#8A9FBF" stroke-opacity=".6" stroke-width="2"/>
+    <path d="m221 269 30-159m143 144-33-153" stroke="#0A1423" stroke-width="17"/>
+    <path d="m221 266 30-158m143 143-33-153" stroke="#334E70" stroke-width="11"/>
+    <path d="m219 264 29-152m143 136-32-145" stroke="#89A7D2" stroke-width="2.5"/>
+    <path d="m235 182 29-74m108 71-21-72" stroke="#172C46" stroke-width="7"/>
+    <path d="m237 178 26-70m108 67-20-68" stroke="#52769E" stroke-width="1.5"/>
+  </g>
+  <path d="m219 83 73-32 108 28-68 36z" fill="url(#plate)" stroke="#8DA3C2" stroke-width="1.5"/>
+  <path d="m219 83 113 32 68-36v10l-68 37-113-33z" fill="#172C45" stroke="#526D91"/>
+  <path d="m231 84 63-27 92 23-57 29z" stroke="#57779E"/>
+  <path d="m241 82 79 23" stroke="#82AAEE" stroke-width="2"/>
+  <path d="m255 82 25-11m26 22 25-12m8 7 24-11" stroke="#0D1C30" stroke-width="5" stroke-linecap="round"/>
+  <path d="m197 233 111-58 112 31-108 62z" fill="url(#plate)" stroke="#7996BB" stroke-width="1.5"/>
+  <path d="m197 233 115 35 108-62v11l-108 63-115-35z" fill="#112139" stroke="#506C92"/>
+  <path d="m217 231 91-45 90 24-88 49z" fill="#1B2F49" stroke="#4A688F"/>
+  <path d="m239 227 67-34m-47 42 67-34m-47 42 67-34m-46 42 67-34" stroke="#7094C4" stroke-opacity=".65" stroke-width="2"/>
+  <path d="m358 165 63-13 14 23" stroke="#11223A" stroke-width="12" stroke-linecap="round"/>
+  <path d="m358 162 63-13 14 23" stroke="#5D789F" stroke-width="7" stroke-linecap="round"/>
+  <path d="m403 166 36-17 44 12-36 19z" fill="url(#plate)" stroke="#8BA6C9"/>
+  <path d="m403 166 44 14 36-19v7l-36 19-44-14z" fill="#13263F" stroke="#4B688F"/>
+  <circle cx="230" cy="214" r="8" fill="#182B44" stroke="#84A2CB" stroke-width="1.5"/><circle cx="230" cy="214" r="2.5" fill="#91B6F6"/>
+  <circle cx="383" cy="205" r="8" fill="#182B44" stroke="#84A2CB" stroke-width="1.5"/><circle cx="383" cy="205" r="2.5" fill="#91B6F6"/>
+  <path d="m171 267 13-6 14 3v9l-14 5-13-3zm133 27 15-5 15 3v8l-15 5-15-4zm135-62 14-6 11 2v8l-13 6-12-3z" fill="#0A1422" stroke="#526B8E"/>
+</svg>
