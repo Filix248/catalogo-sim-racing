@@ -6,9 +6,11 @@ and patches the client's creation for all reruns.
 """
 
 import copy
+from html import unescape
 import logging
 import os
 from pathlib import Path
+import re
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -56,7 +58,7 @@ class AppInteractionTests(unittest.TestCase):
         self.assertEqual(app.session_state["navigation"], page)
 
     def visible_ids(self, app, context="catalogue"):
-        prefix = f"pending_{context}_"
+        prefix = f"detail_{context}_"
         return [button.key.removeprefix(prefix) for button in app.button if button.key and button.key.startswith(prefix)]
 
     def test_combined_filters_and_reset_restore_catalogue(self):
@@ -125,6 +127,81 @@ class AppInteractionTests(unittest.TestCase):
         self.assertEqual(app.session_state["comparison"], ["demo-g923", "demo-t300", "demo-4060"])
         self.navigate(app, "Comparar")
         self.assertEqual(len(app.multiselect(key="compare_picker").value), 3)
+
+    def test_product_presentation_keeps_selection_and_shows_exact_purchase_details(self):
+        affiliate_url = "https://www.amazon.com/dp/B0ABC12345/ref=nosim?tag=demo-20&th=1"
+        requirement = "Necesita una base compatible con la plataforma y el juego elegido; el conjunto no funciona por sí solo en consola."
+        warning = "No incluye volante ni pedales. Comprueba conexiones, firmware y anclaje antes de comprar; no conectes dos cables de datos simultáneamente."
+        product = {
+            "id": "test-shifter", "nombre": "Palanca de prueba", "categoria": "Palanca de cambios",
+            "nivel_presupuesto": "Entry", "url_afiliado": affiliate_url,
+            "specs_tecnicas": {
+                "tipo": "Manual en H", "descripcion_editorial": "Palanca independiente para ampliar un equipo existente.",
+                "requiere": requirement, "advertencia": warning,
+                "incluye": ["Palanca", "Cable USB", "Fijación a mesa"],
+                "fuentes_fabricante": ["https://www.thrustmaster.com/testing/shifter"],
+            },
+        }
+        self.response.data = [product, copy.deepcopy(DEMO_PRODUCTS[0])]
+        app = self.app()
+        app.button(key="save_catalogue_demo-g923").click().run()
+        app.button(key="compare_catalogue_demo-g923").click().run()
+        app.text_input(key="catalogue_query").set_value("palanca").run()
+        app.button(key="detail_catalogue_test-shifter").click().run()
+        self.assertHealthy(app)
+        self.assertEqual(app.session_state["saved"], ["demo-g923"])
+        self.assertEqual(app.session_state["comparison"], ["demo-g923"])
+
+        dialogs = app.get("dialog")
+        self.assertEqual(len(dialogs), 1)
+        self.assertTrue(dialogs[0].proto.dialog.is_open)
+        rendered = unescape("\n".join(item.value for item in dialogs[0].get("markdown")))
+        self.assertIn(product["nombre"], rendered)
+        self.assertNotIn("Logitech G923", rendered)
+        notices = [unescape(item.value) for item in dialogs[0].get("markdown") if "product-requirement" in item.value]
+        self.assertTrue(any(requirement in notice for notice in notices))
+        self.assertTrue(any(warning in notice for notice in notices))
+        for included in product["specs_tecnicas"]["incluye"]:
+            self.assertIn(included, rendered)
+        purchase_links = [link for link in dialogs[0].get("link_button") if link.proto.label == "Consultar producto en Amazon ↗"]
+        self.assertEqual([link.proto.url for link in purchase_links], [affiliate_url])
+
+        app.button(key="close_detail_test-shifter").click().run()
+        self.assertHealthy(app)
+        self.assertEqual(list(app.get("dialog")), [])
+        self.assertEqual(self.visible_ids(app), ["test-shifter"])
+        self.assertEqual(app.session_state["catalogue_query"], "palanca")
+        self.assertEqual(app.session_state["saved"], ["demo-g923"])
+        self.assertEqual(app.session_state["comparison"], ["demo-g923"])
+
+    def test_untrusted_manufacturer_urls_never_become_official_links_or_remote_images(self):
+        affiliate_url = "https://www.amazon.com/dp/B0ABC12345?tag=demo-20"
+        untrusted_sources = [
+            "https://www.thrustmaster.com.evil.test/photos/product.jpg",
+            "https://www.thrustmaster.com@evil.test/photos/product.jpg",
+            "http://www.thrustmaster.com/photos/product.jpg",
+            "https://evil.test/?redirect=https://www.thrustmaster.com",
+            "https://www.thrustmaster.com:8443/photos/product.jpg",
+        ]
+        self.response.data = [{
+            "id": "test-source", "nombre": "Accesorio con fuente sin verificar", "categoria": "Pedales",
+            "nivel_presupuesto": "Entry", "url_afiliado": affiliate_url,
+            "specs_tecnicas": {
+                "fuentes_fabricante": untrusted_sources,
+                "imagen_url": untrusted_sources[0], "imagenes": untrusted_sources,
+            },
+        }]
+        app = self.app()
+        app.button(key="detail_catalogue_test-source").click().run()
+        self.assertHealthy(app)
+        dialog = app.get("dialog")[0]
+        self.assertEqual([link.proto.url for link in dialog.get("link_button")], [affiliate_url])
+        rendered = "\n".join(item.value for item in dialog.get("markdown"))
+        for untrusted in untrusted_sources:
+            self.assertNotIn(untrusted, rendered)
+        image_sources = re.findall(r'<img\b[^>]*\bsrc=["\x27]([^"\x27]+)', rendered)
+        self.assertTrue(image_sources)
+        self.assertTrue(all(not source.startswith(("https:", "http:", "//")) for source in image_sources))
 
     def test_xbox_setup_excludes_gpu_and_guides_still_navigate(self):
         app = self.app()
