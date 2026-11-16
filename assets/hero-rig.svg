@@ -1,10 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="500" viewBox="0 0 1000 500" fill="none" role="img" aria-labelledby="title desc">
   <title id="title">Cockpit de sim racing</title>
-  <desc id="desc">Ilustración original de un cockpit de carreras con monitor panorámico, volante, pedales y asiento deportivo sobre una plataforma iluminada en azul.</desc>
+  <desc id="desc">Ilustración original y genérica de un cockpit de carreras con monitor panorámico, volante, pedales y asiento deportivo. La plataforma combina contornos azules y pequeños acentos lima, con un trazado abstracto al fondo; no representa un producto ni un circuito concreto.</desc>
   <defs>
-    <radialGradient id="halo"><stop stop-color="#386BE6" stop-opacity=".3"/><stop offset="1" stop-color="#386BE6" stop-opacity="0"/></radialGradient>
-    <linearGradient id="base" x1="200" y1="300" x2="800" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#263349"/><stop offset=".5" stop-color="#101824"/><stop offset="1" stop-color="#1D2B42"/></linearGradient>
-    <linearGradient id="edge" x1="230" y1="320" x2="750" y2="450" gradientUnits="userSpaceOnUse"><stop stop-color="#7AA7FF"/><stop offset=".55" stop-color="#253D65"/><stop offset="1" stop-color="#6398FF"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#4D79BE" stop-opacity=".2"/><stop offset="1" stop-color="#386BE6" stop-opacity="0"/></radialGradient>
+    <linearGradient id="base" x1="200" y1="300" x2="800" y2="500" gradientUnits="userSpaceOnUse"><stop stop-color="#29364B"/><stop offset=".5" stop-color="#121C29"/><stop offset="1" stop-color="#203049"/></linearGradient>
+    <linearGradient id="edge" x1="230" y1="320" x2="750" y2="450" gradientUnits="userSpaceOnUse"><stop stop-color="#A7C4F0"/><stop offset=".48" stop-color="#355372"/><stop offset="1" stop-color="#86ACE2"/></linearGradient>
+    <linearGradient id="circuit" x1="650" y1="100" x2="950" y2="290" gradientUnits="userSpaceOnUse"><stop stop-color="#9BBBE8" stop-opacity=".06"/><stop offset=".55" stop-color="#8EAFD9" stop-opacity=".2"/><stop offset="1" stop-color="#D4F56A" stop-opacity=".12"/></linearGradient>
     <linearGradient id="metal" x1="460" y1="200" x2="640" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#56677F"/><stop offset=".35" stop-color="#233044"/><stop offset="1" stop-color="#10151F"/></linearGradient>
     <linearGradient id="seat" x1="650" y1="130" x2="820" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#34445D"/><stop offset=".45" stop-color="#192537"/><stop offset="1" stop-color="#0D1420"/></linearGradient>
     <linearGradient id="screen" x1="260" y1="100" x2="570" y2="250" gradientUnits="userSpaceOnUse"><stop stop-color="#121F35"/><stop offset=".5" stop-color="#080E18"/><stop offset="1" stop-color="#203C63"/></linearGradient>
@@ -13,15 +14,18 @@
     <filter id="shadow" x="-.3" y="-.3" width="1.6" height="1.6"><feGaussianBlur stdDeviation="9"/></filter>
   </defs>
   <ellipse cx="548" cy="270" rx="425" ry="230" fill="url(#halo)"/>
-  <g opacity=".16" stroke="#6D97DC" stroke-width="1">
-    <path d="m110 376 432-142 359 121M149 398l432-142 359 121M188 420l432-142 320 108M227 442l432-142 242 81"/>
-    <path d="m110 376 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66m-47-89 117 66"/>
+  <!-- An original abstract circuit, kept quiet behind the rig. -->
+  <g stroke="url(#circuit)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M846 76c72-4 122 33 102 76-10 23-42 28-39 51 3 22 32 37 18 57-18 26-62 20-92 28-31 8-42 38-74 32-29-5-19-31-43-38-23-6-53 8-69-10-16-18-2-45 17-60 29-25 23-49 52-68 25-16 51-7 72-23 22-18 29-41 56-45Z"/>
   </g>
+  <path d="m136 371 81-26m646 24 65-21" stroke="#6C8CB7" stroke-opacity=".15" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="m841 76 16 1" stroke="#D4F56A" stroke-opacity=".48" stroke-width="7" stroke-linecap="round"/>
   <ellipse cx="552" cy="410" rx="304" ry="42" fill="#02050B" opacity=".7" filter="url(#shadow)"/>
   <path d="m257 353 333-99 252 129-331 108-254-127z" fill="#090F19"/>
   <path d="m257 349 333-99 252 129-331 108-254-127z" fill="url(#base)" stroke="#344561" stroke-width="1.5"/>
   <path d="m257 360 254 131 331-108" stroke="#182945" stroke-width="7"/>
   <path d="m275 357 239 122 309-102" stroke="url(#edge)" stroke-width="2"/>
+  <path d="m486 465 28 14 118-39" stroke="#D4F56A" stroke-width="2.5" stroke-linecap="round" opacity=".85"/>
   <path d="m298 348 299-84 201 108-286 94z" fill="#101925" stroke="#27364C"/>
   <path d="m313 350 282-79m-245 98 282-80m-244 99 282-81m-244 100 282-82m-244 101 282-83" stroke="#233148" stroke-width="1"/>
   <!-- Extruded aluminum frame. -->
@@ -50,7 +54,8 @@
   <path d="M372 179c18 7 39 8 48 9-15 6-27 18-26 31 0 17 17 28 36 36l-94-14c-3-13 1-25 10-35 7-9 19-16 26-27z" fill="url(#road)"/>
   <path d="M377 181c-3 10-21 17-29 29-7 9-10 19-10 31m77-53c-23 14-34 37 13 67" stroke="#91B7DF" stroke-width="1.5" opacity=".7"/>
   <path d="m379 188-5 3m-10 8-5 5m-9 12-2 9m2 10 4 8" stroke="#DFEAF7" stroke-width="1.8"/>
-  <path d="m253 214 78 24m112 14 112-1" stroke="#6398FF" stroke-width="3" opacity=".8"/>
+  <path d="m253 214 78 24m112 14 112-1" stroke="#8AAFE4" stroke-width="2" opacity=".8"/>
+  <path d="m253 214 24 7" stroke="#D4F56A" stroke-width="2.5" stroke-linecap="round" opacity=".85"/>
   <path d="M247 88c86 36 198 51 316 36" stroke="#7186A3" stroke-opacity=".5"/>
   <path d="m392 257 26 4" stroke="#63768E" stroke-width="2" stroke-linecap="round"/>
   <!-- Steering support and drive unit. -->
@@ -69,7 +74,7 @@
     <ellipse rx="39" ry="49" fill="#131E2E" stroke="#5A6F89" stroke-width="2"/>
     <path d="m-37-14 27 18 4-39h12l4 39 27-18 3 15-29 19-6 25H-6l-6-25-28-19z" fill="#2D3F58" stroke="#677F9D"/>
     <ellipse rx="17" ry="20" fill="#0C1422" stroke="#536F96"/>
-    <path d="M-9-58h18" stroke="#8CB4FF" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-9-58h18" stroke="#D4F56A" stroke-width="5" stroke-linecap="round"/>
     <circle cx="-23" cy="-4" r="4" fill="#6398FF"/><circle cx="23" cy="-4" r="4" fill="#B5CBF4"/>
     <path d="M-47-20v28m94-28v28" stroke="#0C1523" stroke-width="8" stroke-linecap="round"/>
   </g>
@@ -84,9 +89,11 @@
   <path d="m741 183 20 4 27 74-28 37-15-13 20-32z" fill="#24364D" stroke="#526D91"/>
   <path d="m637 285-26 10c-15 7-18 22-6 33l50 36c10 8 19 9 31 5l75-26c16-6 18-18 5-28l-25-18-31 21-48-23z" fill="url(#seat)" stroke="#5F7696" stroke-width="2"/>
   <path d="m632 302-15 7c-7 3-7 7-1 11l44 31c8 5 14 6 23 3l63-22c6-2 8-6 1-11l-14-10-26 19-49-23z" fill="#17263C" stroke="#304763"/>
-  <path d="m654 176 20 105m61-137 24 105M616 329l43 31c9 7 18 9 28 5l66-23" stroke="#6398FF" stroke-opacity=".9" stroke-width="2"/>
+  <path d="m654 176 20 105m61-137 24 105M616 329l43 31c9 7 18 9 28 5l66-23" stroke="#7DA5DE" stroke-opacity=".9" stroke-width="2"/>
+  <path d="m655 178 5 27m74-59 6 25" stroke="#D4F56A" stroke-opacity=".62" stroke-width="1.5" stroke-linecap="round"/>
   <path d="m648 283 12 7m85-13 12 6" stroke="#B3C9EB" stroke-width="2"/>
-  <!-- Blue light reflected on the platform. -->
-  <path d="m478 450 67 33 214-68" stroke="#487CE7" stroke-opacity=".28" stroke-width="14" filter="url(#blur)"/>
-  <g fill="#B6D0FF"><circle cx="285" cy="357" r="2"/><circle cx="514" cy="477" r="2"/><circle cx="824" cy="379" r="2"/></g>
+  <!-- Restrained reflected light and small mechanical highlights. -->
+  <path d="m478 450 67 33 214-68" stroke="#6D96D7" stroke-opacity=".15" stroke-width="10" filter="url(#blur)"/>
+  <g fill="#C3D6EE"><circle cx="285" cy="357" r="2"/><circle cx="824" cy="379" r="2"/></g>
+  <circle cx="514" cy="477" r="2.5" fill="#D4F56A"/>
 </svg>
