@@ -18,3 +18,5 @@ g923-enlace-publicado.json
 enlaces-verificados.json
 *.jpg
 *.png
+tmp/pdfs/
+output/pdf/

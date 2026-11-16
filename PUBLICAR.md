@@ -10,6 +10,8 @@ El refinamiento visual utiliza tonos tinta, acentos lima y una portada original 
 
 Las imágenes actuales son ilustraciones originales de categorías, no fotos exactas de los productos. La presentación incluye enlaces para ver las fotos y el modelo en el fabricante. No se copiaron imágenes de fabricantes sin permiso. No se publican precios, stock ni reseñas.
 
+**Comparar** permite previsualizar una tabla visual de uno a tres productos y descargar **mi-comparacion-apex.pdf** en lugar del antiguo JSON. El PDF incluye resumen, fichas completas paginadas, requisitos, advertencias, condición y enlaces clicables con avisos de afiliación. Se genera en memoria con ReportLab y mantiene la selección de la sesión. Para instalar las dependencias de pruebas, usa `python -m pip install -r requirements-dev.txt`; `pypdf` se utiliza para verificar el documento, no para servir la aplicación.
+
 ## Usar la versión local
 
 Para desarrollar o probar cambios, ejecuta desde la carpeta del proyecto:
@@ -22,7 +24,7 @@ La dirección `http://127.0.0.1:8501/` solo funciona en el computador que ejecut
 
 ## Actualizar o recuperar la publicación
 
-1. Utiliza el repositorio existente `Filix248/catalogo-sim-racing`. `app.py` debe quedar en su raíz, junto a `catalogo.py`, `styles.css` y `requirements.txt`; conserva las carpetas `assets`, `tests` y `.streamlit`.
+1. Utiliza el repositorio existente `Filix248/catalogo-sim-racing`. `app.py` debe quedar en su raíz, junto a `catalogo.py`, `exportar_comparacion.py`, `styles.css`, `requirements.txt` y `requirements-dev.txt`; conserva las carpetas `assets`, `tests` y `.streamlit`.
 2. Al subir archivos, usa solo el código y los recursos preparados. Si utilizas la carpeta `para-subir-a-github`, actualiza primero sus copias con los cambios que quieras publicar. Si utilizas un ZIP, extrae su contenido antes de subirlo a GitHub.
 3. Entra a [Streamlit Community Cloud](https://share.streamlit.io/) y abre la aplicación existente para revisar su estado o configuración. Para recuperar un despliegue desde cero, selecciona `Create app` → `Deploy from repo`.
 4. Elige el repositorio, la rama `main` y el archivo `app.py`. En `Advanced settings`, usa Python 3.12. La dirección pública configurada es `apex-lab-sim-racing.streamlit.app`.
@@ -30,7 +32,7 @@ La dirección `http://127.0.0.1:8501/` solo funciona en el computador que ejecut
 6. Revisa que la aplicación permita visitas públicas y comprueba su URL sin iniciar sesión. Un repositorio público contiene el código; la dirección `streamlit.app` es la página del catálogo.
 7. Después de una actualización, comprueba los contadores de portada, el número de fichas, sus categorías y la cuadrícula en pantalla amplia, intermedia y móvil. Verifica que la navegación por categoría conserva los otros filtros, que **Ver todo el garage** los restablece y que los accesos por nivel funcionan. Abre y cierra **Ver presentación** de distintos productos; revisa el nombre completo, los avisos, los enlaces de Amazon y del fabricante, y que guardados y comparación sigan funcionando. La consulta de Supabase conserva datos en caché durante cinco minutos. El contenido de la base de datos se mantiene por separado del código; la interfaz pública solo lo lee.
 
-La carpeta `para-subir-a-github` y el archivo `catalogo-apex-github.zip` contienen únicamente **18 archivos públicos**: código, documentación, ocho SVG originales, configuración visual, requisitos y pruebas. Excluyen credenciales, capturas, logs, JSON de investigación o respaldo, scripts de operaciones locales y cachés. No subas la carpeta completa del proyecto.
+La carpeta `para-subir-a-github` y el archivo `catalogo-apex-github.zip` contienen únicamente **21 archivos públicos**: código, documentación, ocho SVG originales, configuración visual, requisitos y pruebas. Excluyen credenciales, capturas, PDF de ejemplo, logs, JSON de investigación o respaldo, scripts de operaciones locales y cachés. No subas la carpeta completa del proyecto.
 
 La compatibilidad depende de los metadatos documentados de cada ficha. Si falta información, se indica como pendiente; no se deduce soporte de juegos, consolas o accesorios a partir del nombre del producto. La web incluye avisos de afiliación y las compras se realizan en Amazon. La publicación no garantiza la aprobación definitiva del programa ni ingresos.
 

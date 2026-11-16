@@ -28,6 +28,8 @@ Los enlaces de Amazon.com utilizan el identificador público de seguimiento veri
 
 ## Desarrollo local
 
+En **Comparar**, la selección de uno a tres productos se muestra en una tabla visual y se puede descargar con **Descargar comparativa en PDF**. El documento A4 horizontal incluye un resumen y fichas completas paginadas, con los requisitos, advertencias, condición de la oferta y enlaces de Amazon y del fabricante. Sustituye a la antigua descarga JSON. La selección se conserva al descargar. El PDF se genera en memoria con ReportLab, sin enviar los productos elegidos a un servicio externo ni guardar un historial. Refleja los datos del catálogo en el momento de generarlo; no verifica precios ni disponibilidad.
+
 Para trabajar en el código de este computador, abre una terminal en la carpeta del proyecto y ejecuta:
 
 ```powershell
@@ -40,6 +42,7 @@ Abre la dirección local que indica Streamlit, normalmente `http://127.0.0.1:850
 Para ejecutar las pruebas del catálogo:
 
 ```powershell
+python -m pip install -r requirements-dev.txt
 python -m unittest discover -s tests -v
 ```
 

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import base64
-import json
 import os
 from html import escape
 from pathlib import Path
@@ -15,6 +14,7 @@ from catalogo import (
     DEMO_PRODUCTS, assess_product, filter_products, normalize_products,
     recommend_products, safe_amazon_url,
 )
+from exportar_comparacion import build_comparison_pdf, comparison_rows
 
 ROOT = Path(__file__).resolve().parent
 BUDGETS = {"Todos": "Todos los niveles", "Entry": "Primera parrilla", "Mid-range": "Siguiente nivel", "Enthusiast": "Máxima inmersión"}
@@ -102,6 +102,38 @@ def go_to(page: str) -> None:
 
 def sync_comparison() -> None:
     st.session_state["comparison"] = list(st.session_state["compare_picker"])
+
+
+@st.cache_data(ttl=300, max_entries=24, show_spinner=False)
+def comparison_pdf(chosen: list[dict]) -> bytes:
+    return build_comparison_pdf(chosen)
+
+
+def comparison_preview(chosen: list[dict]) -> None:
+    headings = ''.join(
+        f'<th scope="col"><span class="comparison-number">{index:02d}</span>'
+        f'<strong>{escape(product["nombre"])}</strong></th>'
+        for index, product in enumerate(chosen, 1)
+    )
+    rows = ''.join(
+        '<tr><th scope="row">' + escape(label) + '</th>'
+        + ''.join('<td>' + escape(value).replace('\n', '<br>') + '</td>' for value in values)
+        + '</tr>'
+        for label, values in comparison_rows(chosen)
+    )
+    html(
+        '<section class="comparison-preview" aria-labelledby="comparison-preview-title">'
+        '<header class="comparison-preview-heading"><div><span class="eyebrow">TU SELECCIÓN, EN PERSPECTIVA</span>'
+        '<h3 id="comparison-preview-title">Compara lo que importa.</h3></div>'
+        f'<span class="comparison-count">{len(chosen):02d} productos</span></header>'
+        '<p class="comparison-preview-note">No indicado o Por confirmar significa que falta información. Confirma siempre la variante y sus requisitos.</p>'
+        '<div class="comparison-scroll" role="region" aria-label="Tabla comparativa de productos" tabindex="0">'
+        '<table class="comparison-table"><caption>Características registradas en el catálogo</caption>'
+        '<thead><tr><th scope="col">Característica</th>' + headings + '</tr></thead><tbody>'
+        + rows + '</tbody></table></div>'
+        '<p class="comparison-scroll-hint">En pantallas pequeñas, desliza la tabla para ver todos los productos.</p>'
+        '</section>'
+    )
 
 
 def set_collection(budget: str) -> None:
@@ -460,29 +492,24 @@ elif navigation == "Comparar":
         chosen = [by_id[pid] for pid in selected]
         if len({p["categoria"] for p in chosen}) > 1:
             st.info("Seleccionaste categorías diferentes. Puedes revisar sus fichas, pero sus características no son equivalentes.")
+        with st.container(key="comparison_export", border=True):
+            copy, download = st.columns([1.7, 1], gap="medium", vertical_alignment="center")
+            with copy:
+                html('<div class="comparison-export-copy"><span class="eyebrow">LLÉVATE TU SELECCIÓN</span><h3>Tu comparativa, lista para compartir.</h3><p>PDF con resumen, fichas completas y enlaces a Amazon y al fabricante.</p></div>')
+            with download:
+                st.download_button(
+                    "Descargar comparativa en PDF", data=comparison_pdf(chosen),
+                    file_name="mi-comparacion-apex.pdf", mime="application/pdf",
+                    key="download_comparison_pdf", icon=":material/picture_as_pdf:",
+                    type="primary", width="stretch", on_click="ignore",
+                )
+                st.caption("El archivo refleja tu selección actual.")
+        comparison_preview(chosen)
+        section_heading("EXPLORA CADA OPCIÓN", "Las fichas de tu selección.", "Abre una presentación para ampliar sus características o cambia los productos del comparador.")
         columns = st.columns(len(chosen), gap="medium")
         for column, product in zip(columns, chosen):
             with column:
                 product_card(product, "comparison")
-        rows = []
-        field_labels = [("tipo", "Tipo"), ("fuerza_feedback", "Force feedback"), ("vram_gb", "VRAM (GB)"), ("hz", "Frecuencia (Hz)"), ("resolucion", "Resolución"), ("conexion", "Conexión"), ("resolucion_ideal", "Objetivo registrado"), ("plataformas", "Plataformas registradas")]
-        def comparison_value(value):
-            if value is None or value == "":
-                return "Sin datos"
-            if isinstance(value, bool):
-                return "Sí" if value else "No"
-            if isinstance(value, list):
-                return ", ".join(str(v) for v in value)
-            return str(value)
-        for field, label in [("categoria", "Categoría"), ("nivel_presupuesto", "Nivel")] + field_labels:
-            row = {"Característica": label}
-            for index, product in enumerate(chosen, 1):
-                value = product.get(field) if field in ["categoria", "nivel_presupuesto"] else product["specs_tecnicas"].get(field)
-                row[f'{index}. {product["nombre"]}'] = comparison_value(value)
-            rows.append(row)
-        st.dataframe(rows, hide_index=True, width="stretch")
-        payload = [{"nombre": p["nombre"], "categoria": p["categoria"], "nivel": p["nivel_presupuesto"], "specs_tecnicas": p["specs_tecnicas"], "url_amazon": safe_amazon_url(p.get("url_afiliado"))} for p in chosen]
-        st.download_button("Descargar mi comparación ↓", data=json.dumps(payload, ensure_ascii=False, indent=2), file_name="mi-comparacion-apex.json", mime="application/json")
     else:
         st.info("Tu comparador está listo. Selecciona productos arriba o usa «+ Comparar» en una tarjeta.")
         st.button("Explorar productos →", on_click=go_to, args=("Explorar",))
