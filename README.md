@@ -16,7 +16,11 @@ Las imágenes actuales son ilustraciones originales de categorías y no fotograf
 
 ## Presentación visual
 
-El catálogo adapta la cuadrícula a tres tarjetas por fila en pantallas amplias, dos en tamaños intermedios y una en móviles. Cada tarjeta prioriza la imagen, el nombre, la variante y los datos destacados. La presentación individual permite consultar el detalle sin perder los filtros, los guardados ni la comparación de la sesión.
+La portada combina tonos tinta con acentos lima y una ilustración original de cockpit sobre un trazado abstracto. Sus contadores de productos, categorías y niveles se calculan a partir del catálogo disponible; no representan visitas, ventas ni otras métricas comerciales.
+
+La navegación rápida por categoría conserva los demás filtros de la selección. **Ver todo el garage** restablece los filtros, y los accesos compactos por nivel permiten explorar las colecciones inicial, intermedia y entusiasta. En **Explorar**, el listado intercala categorías para mostrar más variedad desde las primeras tarjetas; esta presentación no modifica la base de datos ni el motor de compatibilidad y selección.
+
+El catálogo adapta la cuadrícula a tres tarjetas por fila en pantallas amplias, dos en tamaños intermedios y una en móviles. Cada tarjeta separa la marca y el modelo, prioriza la ilustración y destaca los datos principales; la ficha conserva el nombre completo del producto y su variante. La presentación individual permite consultar el detalle sin perder los filtros, los guardados ni la comparación de la sesión.
 
 Las fotos reales podrán integrarse cuando se disponga de una licencia válida para ese uso. Otra vía es el recurso [Images de la API oficial de Amazon](https://affiliate-program.amazon.com/creatorsapi/docs/en-us/api-reference/resources/images), que proporciona imágenes principales y variantes en distintos tamaños. Su incorporación requiere acceso a la API, configuración y cumplimiento de la licencia aplicable; no está activada por el mero hecho de añadir un enlace de afiliado.
 

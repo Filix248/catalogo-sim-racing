@@ -40,6 +40,15 @@ SIMULATORS = [
     "American Truck Simulator",
 ]
 RESOLUTIONS = ["1080p", "1440p", "4K", "Ultrawide"]
+CATEGORY_NAV = {
+    "Volante": ("Volantes", ":material/sports_motorsports:"),
+    "Pedales": ("Pedales", ":material/tune:"),
+    "Palanca de cambios": ("Cambios", ":material/settings_input_component:"),
+    "Soporte": ("Soportes", ":material/architecture:"),
+    "Cockpit": ("Cockpits", ":material/airline_seat_recline_extra:"),
+    "Monitor": ("Monitores", ":material/desktop_windows:"),
+    "GPU": ("Gráficas", ":material/memory:"),
+}
 
 st.set_page_config(page_title="APEX / LAB · Tu próximo setup", page_icon="🏁", layout="wide")
 st.markdown(f"<style>{(ROOT / 'styles.css').read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
@@ -106,6 +115,34 @@ def reset_filters() -> None:
     set_collection("Todos")
 
 
+def set_category(category: str) -> None:
+    st.session_state["catalogue_category"] = category
+
+
+def presentation_order(items: list[dict]) -> list[dict]:
+    """Interleave categories for a varied storefront without changing records."""
+    grouped = {}
+    for item in items:
+        grouped.setdefault(item["categoria"], []).append(item)
+    categories = [category for category in CATEGORY_NAV if category in grouped]
+    categories += sorted(category for category in grouped if category not in CATEGORY_NAV)
+    return [grouped[category][index] for index in range(max((len(group) for group in grouped.values()), default=0)) for category in categories if index < len(grouped[category])]
+
+
+def category_navigation(items: list[dict]) -> None:
+    counts = {category: sum(item["categoria"] == category for item in items) for category in CATEGORY_NAV}
+    entries = [("Todas", "Todo el garage", ":material/grid_view:", len(items))]
+    entries += [(category, label, icon, counts[category]) for category, (label, icon) in CATEGORY_NAV.items() if counts[category]]
+    with st.container(key="category_nav"):
+        for start in range(0, len(entries), 4):
+            for column, (category, label, icon, count) in zip(st.columns(4, gap="small"), entries[start:start + 4]):
+                with column:
+                    selected = st.session_state["catalogue_category"] == category
+                    if category == "Todas":
+                        selected = selected and not st.session_state["catalogue_query"] and st.session_state["catalogue_budget"] == "Todos" and not st.session_state["only_saved"]
+                    st.button(f"{label} · {count}", icon=icon, key="browse_all" if category == "Todas" else f"browse_{category}", type="primary" if selected else "secondary", width="stretch", on_click=reset_filters if category == "Todas" else set_category, args=() if category == "Todas" else (category,))
+
+
 def metadata_items(value) -> list[str]:
     """Keep readable catalogue text without rendering nested objects."""
     values = [value] if isinstance(value, str) else value if isinstance(value, list) else []
@@ -159,6 +196,11 @@ def editorial_copy(product: dict) -> str:
     if "monitor" in category:
         return "Tu ventana al circuito. Resolución y fluidez deben ir de la mano."
     return "Una pieza para tu setup. Revisa sus conexiones y especificaciones."
+
+
+def product_brand(product: dict) -> str:
+    name = product["nombre"]
+    return next((brand for brand in ("Next Level Racing", "Thrustmaster", "Logitech", "NVIDIA", "ASUS", "MSI", "LG") if name.casefold().startswith(brand.casefold() + " ")), "")
 
 
 def manufacturer_sources(product: dict) -> list[str]:
@@ -271,8 +313,10 @@ def product_presentation(product: dict, assessment: dict | None = None) -> None:
 def product_card(product: dict, context: str, *, assessment: dict | None = None) -> None:
     pid = str(product["id"])
     with st.container(border=True, key=f"card_{context}_{pid}"):
-        html(f'<div class="product-art"><span class="category-label">{escape(product["categoria"])}</span><img src="{asset(category_asset(product))}" alt="Ilustración de categoría {escape(product["categoria"])}"><span class="art-caption">ILUSTRACIÓN DE CATEGORÍA</span></div>')
-        html(f'<div class="product-level">{escape(BUDGETS.get(product["nivel_presupuesto"], product["nivel_presupuesto"]))}</div><h3 class="product-title">{escape(product["nombre"])}</h3>')
+        brand = product_brand(product)
+        title = product["nombre"][len(brand) + 1:] if brand else product["nombre"]
+        html(f'<div class="product-art category-art--{category_asset(product).removesuffix(".svg")}"><span class="category-label">{escape(product["categoria"])}</span><img src="{asset(category_asset(product))}" alt="Ilustración de categoría {escape(product["categoria"])}"><span class="art-caption">ILUSTRACIÓN DE CATEGORÍA</span></div>')
+        html(f'<div class="product-meta"><span class="product-brand">{escape(brand)}</span><span class="product-level">{escape(BUDGETS.get(product["nivel_presupuesto"], product["nivel_presupuesto"]))}</span></div><h3 class="product-title">{escape(title)}</h3>')
         html(product_badges(product))
         html(f'<p class="product-description">{escape(editorial_copy(product))}</p>')
         specs = spec_summary(product)
@@ -311,8 +355,9 @@ def card_grid(items: list[dict], context: str, assessments: dict | None = None) 
                     product_card(product, context, assessment=(assessments or {}).get(str(product["id"])))
 
 
-def section_heading(kicker: str, title: str, description: str = "") -> None:
-    html(f'<div class="section-heading"><span class="eyebrow">{escape(kicker)}</span><h2>{escape(title)}</h2><p>{escape(description)}</p></div>')
+def section_heading(kicker: str, title: str, description: str = "", *, anchor: str = "") -> None:
+    anchor_attribute = f' id="{escape(anchor, quote=True)}"' if anchor else ""
+    html(f'<div class="section-heading"{anchor_attribute}><span class="eyebrow">{escape(kicker)}</span><h2>{escape(title)}</h2><p>{escape(description)}</p></div>')
 
 
 products, source = load_catalogue()
@@ -326,12 +371,13 @@ st.session_state["comparison"] = [pid for pid in st.session_state["comparison"] 
 html('<header class="brandbar"><a class="brand" href="#inicio" aria-label="APEX LAB inicio"><span class="brand-icon">A</span> APEX<span class="brand-slash">/</span>LAB <span class="brand-tag">SIM RACING SELECT</span></a><span class="brand-note"><i></i> EL SIGUIENTE NIVEL ESTÁ EN LOS DETALLES</span></header>')
 
 if st.session_state["navigation"] == "Explorar":
-    html('<section id="inicio" class="hero"><div class="hero-copy"><div class="eyebrow"><span class="blue-line"></span> MENOS DUDAS. MÁS VUELTAS.</div><h1>Tu próxima vuelta<br><span class="hero-accent">empieza aquí.</span></h1><p>Encuentra las piezas para tu setup de sim racing.<br>Explora, compara y elige con más criterio.</p><div class="hero-tags"><span>01 &nbsp; EXPLORA</span><span>02 &nbsp; COMPARA</span><span>03 &nbsp; ARMA TU SETUP</span></div></div>' + f'<div class="hero-visual"><img src="{asset("hero-rig.svg")}" alt="Ilustración de un cockpit de sim racing con volante, asiento y monitor"><span class="visual-tag"><i></i> TU LUGAR EN LA PARRILLA</span></div></section>')
+    category_count = len({product["categoria"] for product in products})
+    html('<section id="inicio" class="hero"><div class="hero-copy"><div class="eyebrow"><span class="blue-line"></span> SIM RACING, A TU MANERA</div><h1>Tu garage.<br><span class="hero-accent">Tu siguiente nivel.</span></h1><p>Del primer volante a la próxima mejora.<br>Explora cada pieza y encuentra tu punto de partida.</p><a class="hero-link" href="#garage">Explorar el catálogo <span aria-hidden="true">↓</span></a>' + f'<div class="hero-kpis"><div><b>{len(products):02d}</b><span>productos</span></div><div><b>{category_count:02d}</b><span>categorías</span></div><div><b>03</b><span>niveles de setup</span></div></div></div><div class="hero-visual"><div class="hero-plaque"><span>APEX / LAB</span><strong>EL GARAGE</strong><small>HARDWARE · SIM RACING</small></div><img src="{asset("hero-rig.svg")}" alt="Ilustración original de un cockpit de sim racing, no de un modelo concreto"><span class="visual-tag"><i></i> IMAGINA TU PRÓXIMO SETUP</span></div></section>')
     with st.container(key="hero_actions"):
         cta, second, _ = st.columns([1.4, 1.4, 3.5])
         cta.button("Armar mi setup  →", type="primary", width="stretch", on_click=go_to, args=("Mi setup",))
         second.button("Cómo elegir  ↗", width="stretch", on_click=go_to, args=("Guías",))
-    html('<div class="trust-strip"><span><b>01</b> Hardware por nivel</span><span><b>02</b> Comparaciones claras</span><span><b>03</b> Compra en Amazon</span><span class="trust-small">Elige aquí. Confirma los detalles allá.</span></div>')
+    html('<div class="trust-strip"><span><b>01</b> Una ficha por producto</span><span><b>02</b> Compara hasta 3 opciones</span><span><b>03</b> Compra en Amazon</span></div>')
 
 comparison_count = len(st.session_state["comparison"])
 navigation = st.segmented_control("Navegación principal", ["Explorar", "Mi setup", "Comparar", "Guías"], key="navigation", required=True, label_visibility="collapsed", format_func=lambda page: f"{page} ({comparison_count})" if page == "Comparar" and comparison_count else page)
@@ -344,18 +390,11 @@ if source != "supabase":
         st.rerun()
 
 if navigation == "Explorar":
-    section_heading("ENCUENTRA TU PUNTO DE PARTIDA", "Un setup a tu ritmo.", "Desde tu primer volante hasta una experiencia más inmersiva.")
-    collection_columns = st.columns(3, gap="medium")
-    collections = [
-        ("Entry", "01 / START", "Primera parrilla", "Tu entrada al sim racing. Empieza por el control.", "→ Ver nivel inicial"),
-        ("Mid-range", "02 / UPGRADE", "Siguiente nivel", "Pantalla, control y gráficos. Encuentra tu próxima mejora.", "→ Explorar mejoras"),
-        ("Enthusiast", "03 / IMMERSION", "Máxima inmersión", "Explora las piezas del nivel entusiasta.", "→ Ver selección"),
-    ]
-    for column, (budget, number, title, text, button) in zip(collection_columns, collections):
-        with column, st.container(border=True, key=f"collection_{budget}"):
-            html(f'<span class="collection-number">{number}</span><h3 class="collection-title">{title}</h3><p class="collection-copy">{text}</p>')
-            st.button(button, key=f"pick_{budget}", on_click=set_collection, args=(budget,), width="stretch", type="tertiary")
-    section_heading("EL GARAGE", "Explora el catálogo.", "Compara lo que importa. Guarda lo que te interesa.")
+    section_heading("EL GARAGE", "Cada pieza, a su lugar.", "Elige una categoría para empezar. Abre una ficha para conocer sus detalles.", anchor="garage")
+    category_navigation(products)
+    with st.container(key="level_shortcuts"):
+        for column, budget in zip(st.columns(3, gap="small"), ("Entry", "Mid-range", "Enthusiast")):
+            column.button(BUDGETS[budget], key=f"pick_{budget}", on_click=set_collection, args=(budget,), width="stretch", type="primary" if st.session_state["catalogue_budget"] == budget else "tertiary")
     with st.container(border=True, key="catalogue_filters"):
         search_col, category_col, budget_col = st.columns([1.6, 1, 1.1])
         search_col.text_input("Buscar producto", placeholder="Volante, RTX, Logitech…", key="catalogue_query")
@@ -372,7 +411,7 @@ if navigation == "Explorar":
         filtered = [p for p in filtered if str(p["id"]) in st.session_state["saved"]]
     html(f'<div class="results-meta"><span><b>{len(filtered):02d}</b> productos en tu selección</span><span>{len(st.session_state["saved"])} guardados · {"Catálogo conectado" if source == "supabase" else "Catálogo de muestra"}</span></div>')
     if filtered:
-        card_grid(filtered, "catalogue")
+        card_grid(presentation_order(filtered), "catalogue")
     else:
         st.info("No hay productos con estos filtros." + (" Guarda un producto para encontrarlo aquí." if st.session_state["only_saved"] else " Prueba otra categoría o nivel."))
         st.button("Ver todo el catálogo", on_click=reset_filters)
