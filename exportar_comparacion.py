@@ -35,6 +35,7 @@ MUTED = colors.HexColor("#546873")
 PALE = colors.HexColor("#f1f5f5")
 LINE = colors.HexColor("#d8e2e4")
 WHITE = colors.white
+CATALOGUE_URL = "https://apex-lab-sim-racing.streamlit.app/"
 LEVELS = {"Entry": "Primera parrilla", "Mid-range": "Siguiente nivel", "Enthusiast": "Máxima inmersión"}
 MANUFACTURERS = ("logitechg.com", "logitech.com", "thrustmaster.com", "nextlevelracing.com", "lg.com", "asus.com", "msi.com")
 SPEC_LABELS = {
@@ -213,8 +214,8 @@ def _product_story(product: dict, number: int, count: int, styles: dict, width: 
     url = safe_amazon_url(product.get("url_afiliado"))
     if url:
         story.append(KeepTogether([
-            Paragraph(f'<a href="{escape(url, quote=True)}" color="#10232d">Consultar esta variante en Amazon</a>', styles["cta"]),
-            _paragraph("Enlace de afiliado. Puedo recibir una comisión por compras que cumplan los requisitos aplicables. Consulta precio, variante, condición y disponibilidad en Amazon.", styles["small"]),
+            Paragraph(f'<a href="{CATALOGUE_URL}" color="#10232d">Consultar en el catálogo</a>', styles["cta"]),
+            _paragraph("Abre el catálogo de APEX / LAB para consultar sus enlaces de compra. Comprueba precio, variante, condición y disponibilidad en Amazon.", styles["small"]),
         ]))
     else:
         story.append(_paragraph("Esta ficha no tiene un enlace de compra habilitado.", styles["small"]))

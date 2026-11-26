@@ -1,0 +1,553 @@
+{
+  "schema_version": 1,
+  "fecha_revision": "2026-11-16",
+  "productos": [
+    {
+      "id": "amazon-com-b0cxrn9k6p",
+      "nombre": "Logitech G923 + palanca (Xbox/PC, reacondicionado)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "advertencia": "Producto reacondicionado. Confirma la condición, garantía y accesorios incluidos en la oferta de Amazon.",
+        "asin": "B0CXRN9K6P",
+        "descripcion_editorial": "Kit reacondicionado para Xbox y PC con volante G923, pedales y palanca de cambios. Comprueba el estado y el contenido de la oferta.",
+        "estado": "Reacondicionado",
+        "fecha_revision": "2026-11-13",
+        "fuente": "https://www.amazon.com/dp/B0CXRN9K6P",
+        "fuentes": [
+          "https://www.logitechg.com/en-us/shop/p/g923-trueforce-sim-racing-wheel",
+          "https://www.amazon.com/dp/B0CXRN9K6P"
+        ],
+        "fuentes_fabricante": [
+          "https://www.logitechg.com/en-us/shop/p/g923-trueforce-sim-racing-wheel"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante",
+          "Pedales",
+          "Palanca de cambios"
+        ],
+        "plataformas": [
+          "PC",
+          "Xbox"
+        ],
+        "tipo": "Engranaje"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0CXRN9K6P?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b00z0uwwyc",
+      "nombre": "Logitech G29 + pedales (PlayStation/PC)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "asin": "B00Z0UWWYC",
+        "descripcion_editorial": "Para empezar con volante y pedales en PlayStation o PC. La palanca en H se compra por separado.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B00Z0UWWYC",
+        "fuentes": [
+          "https://www.logitechg.com/en-us/shop/p/driving-force-racing-wheel",
+          "https://www.amazon.com/dp/B00Z0UWWYC"
+        ],
+        "fuentes_fabricante": [
+          "https://www.logitechg.com/en-us/shop/p/driving-force-racing-wheel"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante con base",
+          "Pedalera"
+        ],
+        "nota_variante": "G29: estilo PS5/PS4/PC y configuración volante + pedales. Amazon puede mostrar un título de familia traducido como G920.",
+        "plataformas": [
+          "PC",
+          "PlayStation"
+        ],
+        "plataformas_detalle": [
+          "Windows PC",
+          "PlayStation 5",
+          "PlayStation 4",
+          "PlayStation 3"
+        ],
+        "requiere": "Juego compatible con volante; la palanca Driving Force se vende por separado.",
+        "tipo": "Engranaje"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B00Z0UWWYC?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b00z0uwv98",
+      "nombre": "Logitech G920 + pedales (Xbox/PC)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "asin": "B00Z0UWV98",
+        "descripcion_editorial": "Alternativa de entrada para Xbox o PC, con volante y pedales. Verifica el soporte del juego antes de elegir.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B00Z0UWV98",
+        "fuentes": [
+          "https://www.logitechg.com/en-us/shop/p/driving-force-racing-wheel",
+          "https://www.amazon.com/Logitech-Dual-Motor-Feedback-Driving-Responsive/dp/B00Z0UWV98/",
+          "https://www.amazon.com/dp/B00Z0UWV98"
+        ],
+        "fuentes_fabricante": [
+          "https://www.logitechg.com/en-us/shop/p/driving-force-racing-wheel"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante con base",
+          "Pedalera"
+        ],
+        "plataformas": [
+          "PC",
+          "Xbox"
+        ],
+        "plataformas_detalle": [
+          "Windows PC",
+          "Xbox Series X|S",
+          "Xbox One"
+        ],
+        "requiere": "Juego compatible con volante; la palanca Driving Force se vende por separado.",
+        "tipo": "Engranaje"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B00Z0UWV98?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b08z5cx6v2",
+      "nombre": "Thrustmaster T248P + T3PM (PlayStation/PC)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "asin": "B08Z5CX6V2",
+        "descripcion_editorial": "Volante híbrido con pantalla y pedalera T3PM. La telemetría de la pantalla depende de cada juego y plataforma.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B08Z5CX6V2",
+        "fuentes": [
+          "https://www.thrustmaster.com/en-us/products/t248/",
+          "https://www.amazon.com/dp/B08Z5CX6V2"
+        ],
+        "fuentes_fabricante": [
+          "https://www.thrustmaster.com/en-us/products/t248/"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante con base T248",
+          "Pedalera magnética T3PM",
+          "Sistema de fijación"
+        ],
+        "plataformas": [
+          "PC",
+          "PlayStation"
+        ],
+        "plataformas_detalle": [
+          "Windows PC",
+          "PlayStation 5",
+          "PlayStation 4"
+        ],
+        "requiere": "Juego compatible; las funciones de la pantalla dependen del juego y la plataforma. Es la variante PlayStation, no Xbox ni T248R.",
+        "tipo": "Híbrido: correa y engranajes"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B08Z5CX6V2?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0b2bxyg9k",
+      "nombre": "Thrustmaster T128P + T2PM (PlayStation/PC)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "asin": "B0B2BXYG9K",
+        "descripcion_editorial": "Conjunto de volante y dos pedales para un primer setup en PlayStation o PC. Sin pedal de embrague.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B0B2BXYG9K",
+        "fuentes": [
+          "https://www.thrustmaster.com/en-us/products/t128/",
+          "https://www.amazon.com/dp/B0B2BXYG9K"
+        ],
+        "fuentes_fabricante": [
+          "https://www.thrustmaster.com/en-us/products/t128/"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante con base T128",
+          "Pedalera magnética T2PM de 2 pedales",
+          "Sistema de fijación"
+        ],
+        "plataformas": [
+          "PC",
+          "PlayStation"
+        ],
+        "plataformas_detalle": [
+          "Windows PC",
+          "PlayStation 5",
+          "PlayStation 4"
+        ],
+        "requiere": "Juego compatible. Es la variante PlayStation, no Xbox. La pedalera incluida no tiene embrague.",
+        "tipo": "Híbrido: correa y engranajes"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0B2BXYG9K?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b01m1l2nrl",
+      "nombre": "Thrustmaster T300RS GT + T3PA-GT (PlayStation/PC)",
+      "categoria": "Volante",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "asin": "B01M1L2NRL",
+        "descripcion_editorial": "Sistema de doble correa con aro intercambiable y pedalera T3PA-GT. Comprueba la sujeción y el soporte del juego.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B01M1L2NRL",
+        "fuentes": [
+          "https://www.thrustmaster.com/en-us/products/t300rs-gt-edition/",
+          "https://www.amazon.com/dp/B01M1L2NRL"
+        ],
+        "fuentes_fabricante": [
+          "https://www.thrustmaster.com/en-us/products/t300rs-gt-edition/"
+        ],
+        "fuerza_feedback": true,
+        "incluye": [
+          "Volante con base T300RS",
+          "Pedalera T3PA-GT"
+        ],
+        "plataformas": [
+          "PC",
+          "PlayStation"
+        ],
+        "plataformas_detalle": [
+          "Windows PC",
+          "PlayStation 5",
+          "PlayStation 4",
+          "PlayStation 3"
+        ],
+        "tipo": "Correa"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B01M1L2NRL?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b00z0uwv3o",
+      "nombre": "Logitech Driving Force Shifter",
+      "categoria": "Palanca de cambios",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "advertencia": "Requiere un volante compatible. La plataforma y el soporte del juego dependen del conjunto; no incluye volante ni pedales.",
+        "asin": "B00Z0UWV3O",
+        "compatibilidad_hardware": [
+          "Logitech G29",
+          "Logitech G920",
+          "Logitech G923"
+        ],
+        "conexion": "DE9 a volante Logitech",
+        "conexiones": "DE9 a volante Logitech G29, G920 o G923 compatible",
+        "descripcion_editorial": "Cambio manual en H con seis marchas y reversa. Se conecta a un volante Logitech G29, G920 o G923 compatible; no funciona como un periférico USB independiente.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B00Z0UWV3O",
+        "fuentes": [
+          "https://www.amazon.com/dp/B00Z0UWV3O",
+          "https://www.logitechg.com/en-us/shop/p/driving-force-shifter"
+        ],
+        "fuentes_fabricante": [
+          "https://www.logitechg.com/en-us/shop/p/driving-force-shifter"
+        ],
+        "incluye": [
+          "Palanca de cambios con fijación a mesa"
+        ],
+        "marchas": "6 + reversa",
+        "nota_variante": "Palanca Driving Force independiente. El título de familia en español de Amazon puede mencionar G920; comprueba el contenido de la oferta.",
+        "tipo": "Manual en H"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B00Z0UWV3O?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0c2jcx1td",
+      "nombre": "Thrustmaster TH8S Shifter Add-On",
+      "categoria": "Palanca de cambios",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "advertencia": "En PlayStation y Xbox requiere un volante Thrustmaster Force Feedback compatible con la consola. Revisa también el soporte del juego; no incluye base de volante.",
+        "asin": "B0C2JCX1TD",
+        "compatibilidad_anclaje": "Fijación integrada para mesas o soportes de 0,1 a 4 cm de grosor",
+        "conexion": "USB / mini-DIN",
+        "conexiones": "USB para PC o mini-DIN a una base Thrustmaster compatible",
+        "descripcion_editorial": "Palanca en H de siete marchas y reversa, con fijación a mesa. USB para PC; en consola necesita una base Thrustmaster Force Feedback compatible.",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B0C2JCX1TD",
+        "fuentes": [
+          "https://www.amazon.com/dp/B0C2JCX1TD",
+          "https://www.thrustmaster.com/en-us/products/th8s-shifter-add-on/",
+          "https://ts.thrustmaster.com/download/accessories/Manuals/TH8/TH8S_Shifter_Manual.pdf"
+        ],
+        "fuentes_fabricante": [
+          "https://www.thrustmaster.com/en-us/products/th8s-shifter-add-on/",
+          "https://ts.thrustmaster.com/download/accessories/Manuals/TH8/TH8S_Shifter_Manual.pdf"
+        ],
+        "incluye": [
+          "TH8S con fijación a mesa",
+          "Cable mini-DIN",
+          "Cable USB-A a USB-C"
+        ],
+        "marchas": "7 + reversa",
+        "tipo": "Manual en H"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0C2JCX1TD?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b09kzrrj9y",
+      "nombre": "Next Level Racing Wheel Stand 2.0",
+      "categoria": "Soporte",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "advertencia": "No incluye asiento, volante, pedales, palanca ni freno de mano. El GTSeat Add-On para convertirlo en cockpit se vende por separado. Comprueba el anclaje y las dimensiones antes de comprar.",
+        "asin": "B09KZRRJ9Y",
+        "compatibilidad_anclaje": "Preperforado para distintos modelos Logitech, Thrustmaster y Fanatec; comprobar la plantilla del modelo exacto",
+        "descripcion_editorial": "Soporte plegable para montar volante, pedales y palanca, con apoyo para las ruedas de una silla de escritorio. No incluye asiento ni electrónica.",
+        "fecha_revision": "2026-11-16",
+        "formato": "Soporte plegable",
+        "fuente": "https://www.amazon.com/dp/B09KZRRJ9Y",
+        "fuentes": [
+          "https://www.amazon.com/Steering-Thrustmaster-Fanatec-consoles-Upgradeable-included/dp/B09KZRRJ9Y",
+          "https://nextlevelracing.com/products/racing-wheel-stand-2-0/",
+          "https://support.nextlevelracing.com/hc/en-us/articles/13018355222159-Wheel-Stand-2-0-NLR-S023",
+          "https://www.amazon.com/dp/B09KZRRJ9Y"
+        ],
+        "fuentes_fabricante": [
+          "https://nextlevelracing.com/products/racing-wheel-stand-2-0/",
+          "https://support.nextlevelracing.com/hc/en-us/articles/13018355222159-Wheel-Stand-2-0-NLR-S023"
+        ],
+        "incluye": [
+          "Estructura Wheel Stand 2.0",
+          "Soporte para palanca y freno de mano",
+          "Apoyo Game Chair Cradle para silla"
+        ],
+        "modelo": "NLR-S023",
+        "tipo": "Soporte plegable"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B09KZRRJ9Y?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b08n79hm77",
+      "nombre": "Next Level Racing GTLite",
+      "categoria": "Cockpit",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "advertencia": "No incluye volante, pedales, palanca ni monitor. Verifica medidas, plantilla de anclaje y límites recomendados para tu base; no se promete rigidez universal con bases de alto par.",
+        "asin": "B08N79HM77",
+        "compatibilidad_anclaje": "Preperforado para modelos Logitech, Thrustmaster y Fanatec; admite fijación mediante abrazadera en equipos compatibles",
+        "descripcion_editorial": "Cockpit plegable con asiento y posición de conducción GT. Permite ajustar volante, pedales y palanca; la electrónica se compra por separado.",
+        "fecha_revision": "2026-11-16",
+        "formato": "Cockpit plegable con asiento",
+        "fuente": "https://www.amazon.com/dp/B08N79HM77",
+        "fuentes": [
+          "https://www.amazon.com/dp/B08N79HM77",
+          "https://nextlevelracing.com/products/gt-lite/"
+        ],
+        "fuentes_fabricante": [
+          "https://nextlevelracing.com/products/gt-lite/"
+        ],
+        "incluye": [
+          "Cockpit GTLite con asiento",
+          "Soporte para palanca"
+        ],
+        "modelo": "NLR-S021",
+        "tipo": "Cockpit plegable con asiento"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B08N79HM77?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b083mnb4d8",
+      "nombre": "Thrustmaster T-LCM Pedals",
+      "categoria": "Pedales",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "advertencia": "En consola requieren una base Thrustmaster compatible con esa consola y el firmware adecuado. No incluyen base ni volante. Comprueba soporte del juego y anclaje; no conectes USB y RJ12 simultáneamente.",
+        "asin": "B083MNB4D8",
+        "carga_sensor_freno_kg": 100,
+        "conexion": "USB / RJ12",
+        "conexiones": "USB directo a PC con Windows 10 o posterior; RJ12 a una base Thrustmaster compatible en PlayStation o Xbox",
+        "descripcion_editorial": "Tres pedales con freno por célula de carga y resistencia ajustable mediante muelles. En PC se conectan por USB; en consola necesitan la conexión RJ12 a una base Thrustmaster compatible.",
+        "fecha_revision": "2026-11-16",
+        "freno": "Célula de carga con resistencia ajustable",
+        "fuente": "https://www.amazon.com/dp/B083MNB4D8",
+        "fuentes": [
+          "https://www.amazon.com/dp/B083MNB4D8",
+          "https://www.thrustmaster.com/en-us/products/t-lcm-pedals/",
+          "https://support.thrustmaster.com/en/kb/1795-en/",
+          "https://support.thrustmaster.com/en/kb/1734-en/",
+          "https://ts.thrustmaster.com/download/accessories/Manuals/T_LCM/T-LCM_Pedals_User_Manual.pdf"
+        ],
+        "fuentes_fabricante": [
+          "https://www.thrustmaster.com/en-us/products/t-lcm-pedals/",
+          "https://support.thrustmaster.com/en/kb/1795-en/",
+          "https://support.thrustmaster.com/en/kb/1734-en/",
+          "https://ts.thrustmaster.com/download/accessories/Manuals/T_LCM/T-LCM_Pedals_User_Manual.pdf"
+        ],
+        "incluye": [
+          "Juego de tres pedales T-LCM",
+          "Cable USB desmontable",
+          "Cable RJ12 desmontable",
+          "Seis muelles de ajuste",
+          "Llave Allen"
+        ],
+        "numero_pedales": 3,
+        "sensores": "Magnéticos en acelerador y embrague; célula de carga en freno",
+        "tipo": "Freno por célula de carga"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B083MNB4D8?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0f7w1kvt3",
+      "nombre": "ASUS Dual RTX 5060 Ti OC 8GB",
+      "categoria": "GPU",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "advertencia": "Comprueba la fuente, el espacio en la caja y la placa base. La memoria y la resolución máxima de salida no garantizan FPS en un simulador.",
+        "alimentacion": "1 conector de 8 pines; ASUS recomienda fuente de 550 W para su configuración de referencia",
+        "asin": "B0F7W1KVT3",
+        "conectores": [
+          "1 HDMI 2.1b",
+          "3 DisplayPort 2.1b"
+        ],
+        "descripcion_editorial": "Gráfica de escritorio con 8 GB de memoria. Revisa fuente y espacio de montaje antes de renovar tu PC.",
+        "dimensiones_mm": "229 × 120 × 50",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B0F7W1KVT3",
+        "fuentes": [
+          "https://www.amazon.com/dp/B0F7W1KVT3",
+          "https://www.asus.com/us/motherboards-components/graphics-cards/dual/dual-rtx5060ti-o8g/techspec/"
+        ],
+        "fuentes_fabricante": [
+          "https://www.asus.com/us/motherboards-components/graphics-cards/dual/dual-rtx5060ti-o8g/techspec/"
+        ],
+        "memoria": "GDDR7",
+        "modelo": "DUAL-RTX5060TI-O8G",
+        "plataformas": [
+          "PC"
+        ],
+        "vram_gb": 8
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0F7W1KVT3?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b09v7d96tk",
+      "nombre": "LG UltraGear 27GQ50F-B · 27 pulgadas",
+      "categoria": "Monitor",
+      "nivel_presupuesto": "Entry",
+      "specs_tecnicas": {
+        "advertencia": "Confirma las frecuencias admitidas por cada entrada y tu equipo. La frecuencia del panel no equivale a los FPS que produce el PC o la consola.",
+        "asin": "B09V7D96TK",
+        "descripcion_editorial": "Pantalla de 27 pulgadas Full HD para una mesa o cockpit con espacio limitado. Comprueba distancia de visión y anclaje.",
+        "fecha_revision": "2026-11-16",
+        "formato": "16:9",
+        "fuente": "https://www.amazon.com/dp/B09V7D96TK",
+        "fuentes": [
+          "https://www.amazon.com/dp/B09V7D96TK",
+          "https://www.lg.com/us/monitors/lg-27gq50f-b-gaming-monitor"
+        ],
+        "fuentes_fabricante": [
+          "https://www.lg.com/us/monitors/lg-27gq50f-b-gaming-monitor"
+        ],
+        "hz": 165,
+        "modelo": "27GQ50F-B",
+        "pulgadas": 27,
+        "resolucion": "1920 × 1080"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B09V7D96TK?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0dfzzhk6x",
+      "nombre": "LG UltraGear 27GS75Q-B · 27 pulgadas QHD",
+      "categoria": "Monitor",
+      "nivel_presupuesto": "Mid-range",
+      "specs_tecnicas": {
+        "advertencia": "La frecuencia base es 180 Hz; 200 Hz requiere overclock. Comprueba conexión y capacidad del equipo antes de elegir el modo de pantalla.",
+        "ajustes": [
+          "Altura",
+          "Inclinación",
+          "Pivot"
+        ],
+        "asin": "B0DFZZHK6X",
+        "descripcion_editorial": "Panel IPS QHD de 27 pulgadas con soporte ajustable. Elige la posición de conducción y revisa la conexión para usar su frecuencia.",
+        "fecha_revision": "2026-11-16",
+        "formato": "16:9",
+        "fuente": "https://www.amazon.com/dp/B0DFZZHK6X",
+        "fuentes": [
+          "https://www.amazon.com/dp/B0DFZZHK6X",
+          "https://www.lg.com/us/monitors/lg-27gs75q-b-gaming-monitor"
+        ],
+        "fuentes_fabricante": [
+          "https://www.lg.com/us/monitors/lg-27gs75q-b-gaming-monitor"
+        ],
+        "hz": 180,
+        "hz_oc": 200,
+        "modelo": "27GS75Q-B",
+        "panel": "IPS",
+        "pulgadas": 27,
+        "resolucion": "2560 × 1440"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0DFZZHK6X?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0b928b6bc",
+      "nombre": "LG UltraGear 34GP63A-B · 34 pulgadas ultrawide",
+      "categoria": "Monitor",
+      "nivel_presupuesto": "Enthusiast",
+      "specs_tecnicas": {
+        "advertencia": "El formato 21:9 requiere soporte del juego y una salida compatible. Comprueba ancho, anclaje y distancia de visión; no se presupone soporte ultrawide en consola.",
+        "asin": "B0B928B6BC",
+        "conectores": [
+          "2 HDMI",
+          "DisplayPort"
+        ],
+        "curvatura": "1800R",
+        "descripcion_editorial": "Pantalla curva ultrawide para ampliar el campo visible en juegos compatibles. Mide el espacio disponible y revisa el soporte 21:9.",
+        "fecha_revision": "2026-11-16",
+        "formato": "21:9",
+        "fuente": "https://www.amazon.com/dp/B0B928B6BC",
+        "fuentes": [
+          "https://www.amazon.com/dp/B0B928B6BC",
+          "https://www.lg.com/us/monitors/lg-34gp63a-b-gaming-monitor"
+        ],
+        "fuentes_fabricante": [
+          "https://www.lg.com/us/monitors/lg-34gp63a-b-gaming-monitor"
+        ],
+        "hz": 160,
+        "modelo": "34GP63A-B",
+        "panel": "VA",
+        "pulgadas": 34,
+        "resolucion": "3440 × 1440"
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0B928B6BC?tag=apexlabsimrac-20"
+    },
+    {
+      "id": "amazon-com-b0dygdt9yd",
+      "nombre": "MSI RTX 5070 12G VENTUS 2X OC",
+      "categoria": "GPU",
+      "nivel_presupuesto": "Enthusiast",
+      "specs_tecnicas": {
+        "advertencia": "Verifica placa base, fuente y espacio de montaje. No se presupone un rendimiento concreto por resolución o juego.",
+        "alimentacion": "1 conector de 16 pines; MSI recomienda fuente de 650 W",
+        "asin": "B0DYGDT9YD",
+        "conectores": [
+          "3 DisplayPort 2.1b",
+          "1 HDMI 2.1b"
+        ],
+        "descripcion_editorial": "Gráfica de escritorio con 12 GB y dos ventiladores. Revisa la fuente y el espacio del equipo antes de instalarla.",
+        "dimensiones_mm": "236 × 126 × 50",
+        "fecha_revision": "2026-11-16",
+        "fuente": "https://www.amazon.com/dp/B0DYGDT9YD",
+        "fuentes": [
+          "https://www.amazon.com/dp/B0DYGDT9YD",
+          "https://us-store.msi.com/Graphics-Cards/NVIDIA-GPU/GeForce-RTX-5070-12G-VENTUS-2X-OC",
+          "https://storage-asset.msi.com/datasheet/vga/us/GeForce-RTX-5070-12G-VENTUS-2X-OC.pdf"
+        ],
+        "fuentes_fabricante": [
+          "https://us-store.msi.com/Graphics-Cards/NVIDIA-GPU/GeForce-RTX-5070-12G-VENTUS-2X-OC",
+          "https://storage-asset.msi.com/datasheet/vga/us/GeForce-RTX-5070-12G-VENTUS-2X-OC.pdf"
+        ],
+        "memoria": "GDDR7",
+        "modelo": "G5070-12V2C",
+        "plataformas": [
+          "PC"
+        ],
+        "vram_gb": 12
+      },
+      "url_afiliado": "https://www.amazon.com/dp/B0DYGDT9YD?tag=apexlabsimrac-20"
+    }
+  ]
+}

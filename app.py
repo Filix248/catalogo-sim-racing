@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import os
+from datetime import date
 from html import escape
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -11,7 +12,7 @@ from urllib.parse import urlsplit
 import streamlit as st
 
 from catalogo import (
-    DEMO_PRODUCTS, assess_product, filter_products, normalize_products,
+    DEMO_PRODUCTS, assess_product, filter_products, load_public_catalogue, normalize_products,
     recommend_products, safe_amazon_url,
 )
 from exportar_comparacion import build_comparison_pdf, comparison_rows
@@ -82,18 +83,22 @@ def connection(url: str, key: str):
 
 
 @st.cache_data(ttl=300, show_spinner=False)
-def load_catalogue() -> tuple[list[dict], str]:
+def load_catalogue() -> tuple[list[dict], str, str]:
     url, key = secret("SUPABASE_URL"), secret("SUPABASE_KEY")
-    if not url or not key:
-        return normalize_products(DEMO_PRODUCTS), "demo"
+    if url and key:
+        try:
+            response = connection(url, key).table("catalogo_amazon").select("*").limit(500).execute()
+            if not isinstance(response.data, list):
+                raise ValueError("Respuesta inesperada del catálogo")
+            return normalize_products(response.data), "supabase", ""
+        except Exception:
+            # No exponer errores del cliente: pueden incluir datos de conexión.
+            pass
     try:
-        response = connection(url, key).table("catalogo_amazon").select("*").limit(500).execute()
-        if not isinstance(response.data, list):
-            raise ValueError("Respuesta inesperada del catálogo")
-        return normalize_products(response.data), "supabase"
-    except Exception:
-        # No exponer errores del cliente: pueden incluir datos de conexión.
-        return normalize_products(DEMO_PRODUCTS), "offline"
+        products, revision = load_public_catalogue(ROOT / "catalogo_publico.json")
+        return products, "snapshot", revision
+    except (OSError, ValueError, TypeError):
+        return normalize_products(DEMO_PRODUCTS), "demo", ""
 
 
 def go_to(page: str) -> None:
@@ -392,7 +397,14 @@ def section_heading(kicker: str, title: str, description: str = "", *, anchor: s
     html(f'<div class="section-heading"{anchor_attribute}><span class="eyebrow">{escape(kicker)}</span><h2>{escape(title)}</h2><p>{escape(description)}</p></div>')
 
 
-products, source = load_catalogue()
+products, source, catalogue_revision = load_catalogue()
+catalogue_status = {
+    "supabase": "Catálogo conectado",
+    "snapshot": "Catálogo de respaldo",
+    "demo": "Catálogo de muestra",
+}[source]
+if source == "snapshot":
+    catalogue_status += " · revisión " + date.fromisoformat(catalogue_revision).strftime("%d/%m/%Y")
 for key, value in {"navigation": "Explorar", "saved": [], "comparison": [], "catalogue_budget": "Todos", "catalogue_category": "Todas", "catalogue_query": "", "only_saved": False}.items():
     if key not in st.session_state:
         st.session_state[key] = value
@@ -415,8 +427,11 @@ comparison_count = len(st.session_state["comparison"])
 navigation = st.segmented_control("Navegación principal", ["Explorar", "Mi setup", "Comparar", "Guías"], key="navigation", required=True, label_visibility="collapsed", format_func=lambda page: f"{page} ({comparison_count})" if page == "Comparar" and comparison_count else page)
 html('<aside class="affiliate-notice" aria-label="Información de afiliación"><p><strong>Enlaces de afiliado:</strong> puedo recibir una comisión por las compras que cumplen los requisitos aplicables.</p><p lang="en">As an Amazon Associate I earn from qualifying purchases.</p></aside>')
 if source != "supabase":
-    st.info("Estás viendo datos de muestra. " + ("No pudimos cargar el catálogo conectado. Puedes seguir explorando y volver a intentarlo." if source == "offline" else "Conecta tu catálogo para mostrar tus productos reales."), icon="ℹ️")
-    if source == "offline" and st.button("Reintentar conexión"):
+    if source == "snapshot":
+        st.info(catalogue_status + ". La versión conectada no está disponible. Puedes consultar estas fichas guardadas; comprueba la variante, el precio y la disponibilidad actuales en Amazon.", icon="ℹ️")
+    else:
+        st.info("No pudimos cargar el catálogo conectado ni su respaldo. Estás viendo datos de muestra con los enlaces de compra desactivados.", icon="ℹ️")
+    if st.button("Reintentar conexión"):
         load_catalogue.clear()
         connection.clear()
         st.rerun()
@@ -441,7 +456,7 @@ if navigation == "Explorar":
     filtered = filter_products(products, query=st.session_state["catalogue_query"], budget=st.session_state["catalogue_budget"], category=st.session_state["catalogue_category"])
     if st.session_state["only_saved"]:
         filtered = [p for p in filtered if str(p["id"]) in st.session_state["saved"]]
-    html(f'<div class="results-meta"><span><b>{len(filtered):02d}</b> productos en tu selección</span><span>{len(st.session_state["saved"])} guardados · {"Catálogo conectado" if source == "supabase" else "Catálogo de muestra"}</span></div>')
+    html(f'<div class="results-meta"><span><b>{len(filtered):02d}</b> productos en tu selección</span><span>{len(st.session_state["saved"])} guardados · {escape(catalogue_status)}</span></div>')
     if filtered:
         card_grid(presentation_order(filtered), "catalogue")
     else:

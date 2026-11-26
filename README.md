@@ -2,7 +2,7 @@
 
 **Abre el catálogo público:** [apex-lab-sim-racing.streamlit.app](https://apex-lab-sim-racing.streamlit.app/).
 
-La versión pública funciona en Streamlit Community Cloud y está conectada a Supabase. Puedes visitarla sin iniciar Python ni dejar este computador encendido. El código está en el [repositorio público de GitHub](https://github.com/Filix248/catalogo-sim-racing).
+La versión pública funciona en Streamlit Community Cloud. Carga el catálogo de Supabase cuando está disponible y, si falta la conexión o la configuración, conserva las fichas y enlaces mediante una copia editorial pública fechada. Puedes visitarla sin iniciar Python ni dejar este computador encendido. El código está en el [repositorio público de GitHub](https://github.com/Filix248/catalogo-sim-racing).
 
 El catálogo permite explorar hardware, guardar productos durante la sesión, comparar hasta tres opciones y armar una selección inicial por plataforma, simulador, resolución y nivel. El selector de simulador incluye 18 juegos y permite buscar escribiendo su nombre.
 
@@ -28,7 +28,7 @@ Los enlaces de Amazon.com utilizan el identificador público de seguimiento veri
 
 ## Desarrollo local
 
-En **Comparar**, la selección de uno a tres productos se muestra en una tabla visual y se puede descargar con **Descargar comparativa en PDF**. El documento A4 horizontal incluye un resumen y fichas completas paginadas, con los requisitos, advertencias, condición de la oferta y enlaces de Amazon y del fabricante. Sustituye a la antigua descarga JSON. La selección se conserva al descargar. El PDF se genera en memoria con ReportLab, sin enviar los productos elegidos a un servicio externo ni guardar un historial. Refleja los datos del catálogo en el momento de generarlo; no verifica precios ni disponibilidad.
+En **Comparar**, la selección de uno a tres productos se muestra en una tabla visual y se puede descargar con **Descargar comparativa en PDF**. El documento A4 horizontal incluye un resumen y fichas completas paginadas, con los requisitos, advertencias, condición de la oferta y enlaces al catálogo y al fabricante. Los accesos de compra del PDF vuelven a la web; no contiene enlaces de afiliado directos a Amazon. Sustituye a la antigua descarga JSON. La selección se conserva al descargar. El PDF se genera en memoria con ReportLab, sin enviar los productos elegidos a un servicio externo ni guardar un historial. Refleja los datos del catálogo en el momento de generarlo; no verifica precios ni disponibilidad.
 
 Para trabajar en el código de este computador, abre una terminal en la carpeta del proyecto y ejecuta:
 
@@ -50,7 +50,9 @@ python -m unittest discover -s tests -v
 
 La aplicación usa `SUPABASE_URL` y `SUPABASE_KEY` desde variables de entorno o desde el archivo local `.streamlit/secrets.toml`. Puede reutilizar la configuración existente. No compartas ese archivo ni lo subas a un repositorio. La clave debe tener acceso de lectura al catálogo mediante las políticas de Supabase; no hace falta una clave administrativa.
 
-La consulta lee hasta **500 registros** de la tabla `catalogo_amazon` y los conserva en caché durante **cinco minutos**. La interfaz no modifica la base de datos. Sin configuración o si falla la consulta, muestra un catálogo de demostración identificado como tal. Una tabla conectada y vacía se muestra vacía.
+La consulta lee hasta **500 registros** de la tabla `catalogo_amazon` y los conserva en caché durante **cinco minutos**. La interfaz no modifica la base de datos. Sin configuración o si falla la consulta, utiliza `catalogo_publico.json`: una copia depurada de los **16 productos**, revisada el **16 de noviembre de 2026**, con sus fichas y enlaces de Amazon.com. La interfaz la identifica como **Catálogo de respaldo · revisión 16/11/2026**, aclara que la versión conectada no está disponible y permite **Reintentar conexión** sin esperar a la caché. La fecha corresponde a esa copia, no a una verificación actual de los productos ni a precios, disponibilidad o existencias.
+
+El respaldo solo contiene campos editoriales públicos, fuentes y enlaces de afiliado; no necesita credenciales. Debe actualizarse de forma expresa después de revisar las fichas. Si falta o es inválido, la web muestra una demostración claramente identificada con enlaces de compra desactivados. Una tabla conectada y vacía se muestra vacía: no se sustituye por el respaldo. Los productos con un ASIN documentado que coincide con su enlace de Amazon usan identificadores estables por mercado y ASIN para mantener guardados y comparación al cambiar de fuente.
 
 Columnas del catálogo:
 

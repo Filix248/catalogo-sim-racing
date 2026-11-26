@@ -15,8 +15,10 @@ import math
 import re
 import unicodedata
 from collections.abc import Iterable, Mapping
+from datetime import date
+from pathlib import Path
 from typing import Any
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlsplit
 
 
 BUDGETS = ("Entry", "Mid-range", "Enthusiast")
@@ -124,6 +126,57 @@ def safe_amazon_url(value: Any) -> str | None:
     return value if asin_path else None
 
 
+def _amazon_product_id(url: str | None, specs: Mapping[str, Any]) -> str | None:
+    """Identify a documented variant consistently across live and backup data."""
+    asin = specs.get("asin")
+    if not url or not isinstance(asin, str) or not re.fullmatch(r"[A-Z0-9]{10}", asin):
+        return None
+    parsed = urlsplit(url)
+    match = re.search(r"/(?:dp|gp/product|gp/aw/d)/([A-Za-z0-9]{10})(?:/|$)", parsed.path)
+    if not match or match[1].upper() != asin:
+        return None
+    market = (parsed.hostname or "").removeprefix("www.").replace(".", "-")
+    return f"{market}-{asin.lower()}"
+
+
+def load_public_catalogue(path: Path) -> tuple[list[dict[str, Any]], str]:
+    """Read the packaged editorial backup, rejecting incomplete or unsafe data.
+
+    The revision describes the saved catalogue, not current stock, prices or
+    availability. Callers decide whether to fall back to a clearly labelled demo.
+    """
+    snapshot = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(snapshot, dict) or snapshot.get("schema_version") != 1:
+        raise ValueError("Formato de respaldo no válido")
+    revision = snapshot.get("fecha_revision")
+    if not isinstance(revision, str) or date.fromisoformat(revision).isoformat() != revision:
+        raise ValueError("Fecha de respaldo no válida")
+    records = snapshot.get("productos")
+    if not isinstance(records, list) or not records:
+        raise ValueError("El respaldo no contiene productos")
+    ids: set[str] = set()
+    for record in records:
+        if not isinstance(record, dict) or any(
+            not isinstance(record.get(key), str) or not record[key].strip()
+            for key in ("id", "nombre", "categoria", "nivel_presupuesto")
+        ):
+            raise ValueError("Ficha de respaldo incompleta")
+        specs = record.get("specs_tecnicas")
+        url = safe_amazon_url(record.get("url_afiliado"))
+        if not isinstance(specs, dict) or not url:
+            raise ValueError("Ficha de respaldo no válida")
+        parsed = urlsplit(url)
+        product_id = _amazon_product_id(url, specs)
+        if (
+            parsed.hostname not in {"amazon.com", "www.amazon.com"}
+            or parse_qs(parsed.query).get("tag") != ["apexlabsimrac-20"]
+            or not product_id or record["id"] != product_id or product_id in ids
+        ):
+            raise ValueError("Enlace o identificador del respaldo no válido")
+        ids.add(product_id)
+    return normalize_products(records), revision
+
+
 def normalize_products(records: Any) -> list[dict[str, Any]]:
     """Normalize a database result without modifying the supplied records."""
     if not isinstance(records, Iterable) or isinstance(records, (str, bytes, Mapping)):
@@ -140,7 +193,9 @@ def normalize_products(records: Any) -> list[dict[str, Any]]:
             except (ValueError, TypeError):
                 specs = {}
         specs = dict(specs) if isinstance(specs, Mapping) else {}
-        product_id = _text(record.get("id"), f"producto-{index}") or f"producto-{index}"
+        raw_url = _text(record.get("url_afiliado"))
+        amazon_url = safe_amazon_url(raw_url)
+        product_id = _amazon_product_id(amazon_url, specs) or _text(record.get("id"), f"producto-{index}") or f"producto-{index}"
         if product_id in seen_ids:
             product_id = f"{product_id}-{index}"
             while product_id in seen_ids:
@@ -158,7 +213,6 @@ def normalize_products(records: Any) -> list[dict[str, Any]]:
                 price = None
         except (ValueError, TypeError):
             price = None
-        raw_url = _text(record.get("url_afiliado"))
         result.append({
             **record,
             "id": product_id,
@@ -168,7 +222,7 @@ def normalize_products(records: Any) -> list[dict[str, Any]]:
             "specs_tecnicas": specs,
             "precio_aprox": price,
             "url_afiliado": raw_url,
-            "amazon_url": safe_amazon_url(raw_url),
+            "amazon_url": amazon_url,
         })
     return result
 
