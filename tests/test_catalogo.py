@@ -1,10 +1,13 @@
 """Run with: python -m unittest discover -s tests -v."""
 
 import copy
+import json
+from pathlib import Path
+import tempfile
 import unittest
 
 from catalogo import (
-    DEMO_PRODUCTS, assess_product, filter_products, normalize_products,
+    DEMO_PRODUCTS, assess_product, filter_products, load_public_catalogue, normalize_products,
     recommend_products, safe_amazon_url,
 )
 
@@ -40,6 +43,18 @@ class AmazonLinkTests(unittest.TestCase):
 
 
 class NormalizationTests(unittest.TestCase):
+    def test_documented_amazon_variant_keeps_id_across_live_and_backup_sources(self):
+        product = {
+            "id": "database-id", "nombre": "Volante",
+            "specs_tecnicas": {"asin": "B0ABC12345"},
+            "url_afiliado": "https://www.amazon.com/dp/B0ABC12345?tag=apexlabsimrac-20",
+        }
+        backup = copy.deepcopy(product)
+        backup["id"] = "amazon-com-b0abc12345"
+        self.assertEqual(normalize_products([product])[0]["id"], normalize_products([backup])[0]["id"])
+        product["specs_tecnicas"]["asin"] = "B0DIFFERNT"
+        self.assertEqual(normalize_products([product])[0]["id"], "database-id")
+
     def test_bad_fields_are_safe_and_do_not_mutate_input(self):
         records = [
             {"id": "same", "nombre": " RTX ", "categoria": "gpu", "nivel_presupuesto": "mid range", "specs_tecnicas": '{"vram_gb": 8}', "precio_aprox": "NaN"},
@@ -62,6 +77,41 @@ class NormalizationTests(unittest.TestCase):
         for records in (None, "text", {}, []):
             self.assertEqual(normalize_products(records), [])
         self.assertTrue(all(product["amazon_url"] is None for product in normalize_products(DEMO_PRODUCTS)))
+
+
+class PublicCatalogueTests(unittest.TestCase):
+    def test_packaged_backup_has_dated_real_products_and_safe_affiliate_links(self):
+        path = Path(__file__).resolve().parents[1] / "catalogo_publico.json"
+        products, revision = load_public_catalogue(path)
+        self.assertEqual(revision, "2026-11-16")
+        self.assertEqual(len(products), 16)
+        self.assertEqual(len({product["categoria"] for product in products}), 7)
+        self.assertEqual(len({product["id"] for product in products}), 16)
+        self.assertTrue(all(product["amazon_url"] and "tag=apexlabsimrac-20" in product["amazon_url"] for product in products))
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        self.assertTrue(all("precio_aprox" not in product and "nombre_anterior" not in product for product in raw["productos"]))
+
+    def test_invalid_backup_is_rejected_instead_of_used_as_a_commercial_catalogue(self):
+        path = Path(__file__).resolve().parents[1] / "catalogo_publico.json"
+        original = json.loads(path.read_text(encoding="utf-8"))
+        cases = ["not json", [], {**original, "fecha_revision": "not a date"}, {**original, "productos": []}]
+        for field, value in (("url_afiliado", "https://example.com/dp/B0ABC12345"), ("id", "wrong-variant")):
+            invalid = copy.deepcopy(original)
+            invalid["productos"][0][field] = value
+            cases.append(invalid)
+        wrong_tag = copy.deepcopy(original)
+        wrong_tag["productos"][0]["url_afiliado"] = wrong_tag["productos"][0]["url_afiliado"].replace("apexlabsimrac-20", "other-20")
+        cases.append(wrong_tag)
+        duplicate = copy.deepcopy(original)
+        duplicate["productos"].append(copy.deepcopy(duplicate["productos"][0]))
+        cases.append(duplicate)
+        with tempfile.TemporaryDirectory() as folder:
+            corrupt = Path(folder) / "catalogue.json"
+            for value in cases:
+                with self.subTest(value_type=type(value).__name__):
+                    corrupt.write_text(value if isinstance(value, str) else json.dumps(value), encoding="utf-8")
+                    with self.assertRaises((ValueError, TypeError)):
+                        load_public_catalogue(corrupt)
 
 
 class FilterTests(unittest.TestCase):

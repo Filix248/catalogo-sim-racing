@@ -8,7 +8,7 @@ import unittest
 from pypdf import PdfReader
 
 from catalogo import normalize_products
-from exportar_comparacion import build_comparison_pdf, comparison_rows, format_value
+from exportar_comparacion import CATALOGUE_URL, build_comparison_pdf, comparison_rows, format_value
 
 
 def fixture_products():
@@ -58,7 +58,7 @@ def pdf_links(reader):
 
 
 class ComparisonPdfTests(unittest.TestCase):
-    def test_pdf_retains_selection_facts_warnings_and_affiliate_links(self):
+    def test_pdf_retains_selection_facts_warnings_and_returns_to_catalogue(self):
         products = fixture_products()
         original = copy.deepcopy(products)
         data = build_comparison_pdf(products, generated_at=date(2026, 11, 16))
@@ -68,7 +68,7 @@ class ComparisonPdfTests(unittest.TestCase):
         self.assertGreaterEqual(len(reader.pages), 4)
         for product in products:
             self.assertIn(product["nombre"], text)
-            self.assertIn(product["url_afiliado"], pdf_links(reader))
+            self.assertNotIn(product["url_afiliado"], pdf_links(reader))
             for field in ["requiere", "advertencia"]:
                 if field in product["specs_tecnicas"]:
                     self.assertIn(product["specs_tecnicas"][field], text)
@@ -78,6 +78,9 @@ class ComparisonPdfTests(unittest.TestCase):
         self.assertIn("As an Amazon Associate I earn from qualifying purchases.", text)
         self.assertIn("16/11/2026", text)
         self.assertIn("APEX / LAB", reader.metadata.title)
+        self.assertEqual(pdf_links(reader).count(CATALOGUE_URL), len(products))
+        self.assertTrue(all("amazon." not in url and "amzn.to" not in url for url in pdf_links(reader)))
+        self.assertNotIn("apexlabsimrac-20", text)
         self.assertEqual(products, original)
         for sensitive in ["INTERNAL-ID-DO-NOT-EXPORT", "ROOT-SECRET-DO-NOT-EXPORT", "98765"]:
             self.assertNotIn(sensitive, text)
@@ -119,7 +122,7 @@ class ComparisonPdfTests(unittest.TestCase):
         self.assertIn("FIN DE ADVERTENCIA COMPLETA", text)
         self.assertIn("adaptador: No incluido", text)
         self.assertIn("ejes: 0", text)
-        self.assertIn("Consultar esta variante en Amazon", text)
+        self.assertIn("Consultar en el catálogo", text)
         self.assertEqual(len(pdf_links(reader)), 2)
         self.assertTrue(all(float(page.mediabox.width) > float(page.mediabox.height) for page in reader.pages))
 
@@ -137,8 +140,23 @@ class ComparisonPdfTests(unittest.TestCase):
         for page in reader.pages[1:]:
             text = page.extract_text()
             self.assertIn("Características registradas", text)
-            self.assertIn("Consultar esta variante en Amazon", text)
+            self.assertIn("Consultar en el catálogo", text)
             self.assertIn("Fuente del fabricante", text)
+
+    def test_pdf_replaces_direct_and_short_amazon_links_with_catalogue(self):
+        for url in [
+            "https://www.amazon.com/dp/B0CXRN9K6P?tag=apexlabsimrac-20",
+            "https://www.amazon.es/dp/B0CXRN9K6P?tag=private-tracking-21",
+            "https://amzn.to/abc1234",
+        ]:
+            with self.subTest(url=url):
+                product = fixture_products()[0]
+                product["url_afiliado"] = url
+                reader = PdfReader(BytesIO(build_comparison_pdf([product])))
+                self.assertIn(CATALOGUE_URL, pdf_links(reader))
+                self.assertNotIn(url, pdf_links(reader))
+                self.assertIn(product["specs_tecnicas"]["fuentes_fabricante"][0], pdf_links(reader))
+                self.assertTrue(all("amazon." not in link and "amzn.to" not in link for link in pdf_links(reader)))
 
     def test_shared_matrix_preserves_explicit_unknown_zero_and_full_requirements(self):
         products = fixture_products()[:2]

@@ -19,7 +19,7 @@ import streamlit as st
 from streamlit.testing.v1 import AppTest
 from pypdf import PdfReader
 
-from catalogo import DEMO_PRODUCTS
+from catalogo import DEMO_PRODUCTS, load_public_catalogue
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,7 +47,11 @@ class AppInteractionTests(unittest.TestCase):
         self.addCleanup(st.cache_resource.clear)
 
     def app(self):
-        app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=20).run()
+        app = AppTest.from_file(str(ROOT / "app.py"), default_timeout=20)
+        # AppTest installs its own Secrets object for every run. Keep it
+        # populated with synthetic empty values so no local file is consulted.
+        app.secrets = {"SUPABASE_URL": "", "SUPABASE_KEY": ""}
+        app.run()
         self.assertHealthy(app)
         return app
 
@@ -333,16 +337,69 @@ class AppInteractionTests(unittest.TestCase):
     def test_connection_failure_falls_back_without_exposing_error_or_key(self):
         self.create_client.side_effect = RuntimeError("TEST-KEY-DO-NOT-RENDER internal connection details")
         app = self.app()
-        self.assertEqual(len(self.visible_ids(app)), len(DEMO_PRODUCTS))
-        self.assertTrue(any("No pudimos cargar" in item.value for item in app.info))
+        backup, _ = load_public_catalogue(ROOT / "catalogo_publico.json")
+        self.assertEqual(set(self.visible_ids(app)), {product["id"] for product in backup})
+        self.assertTrue(any("Catálogo de respaldo · revisión 16/11/2026" in item.value for item in app.info))
+        self.assertTrue(any("Catálogo de respaldo · revisión 16/11/2026" in item.value for item in app.markdown))
+        self.assertFalse(any("datos de muestra" in item.value for item in app.info))
         rendered = "\n".join(str(item.value) for kind in (app.markdown, app.caption, app.info, app.error) for item in kind)
         self.assertNotIn("TEST-KEY-DO-NOT-RENDER", rendered)
         self.assertNotIn("internal connection details", rendered)
         self.create_client.side_effect = None
         next(button for button in app.button if button.label == "Reintentar conexión").click().run()
         self.assertHealthy(app)
-        self.assertFalse(any("No pudimos cargar" in item.value for item in app.info))
+        self.assertEqual(len(app.info), 0)
         self.assertTrue(any("Catálogo conectado" in item.value for item in app.markdown))
+
+    def test_missing_configuration_uses_real_backup_without_reading_local_secrets(self):
+        with patch.dict(os.environ, {"SUPABASE_URL": "", "SUPABASE_KEY": ""}):
+            app = self.app()
+        self.create_client.assert_not_called()
+        self.assertEqual(len(self.visible_ids(app)), 16)
+        self.assertTrue(any("Catálogo de respaldo" in item.value for item in app.info))
+        first_id = self.visible_ids(app)[0]
+        with patch.dict(os.environ, {"SUPABASE_URL": "", "SUPABASE_KEY": ""}):
+            app.button(key=f"detail_catalogue_{first_id}").click().run()
+        self.assertHealthy(app)
+        purchase = [link for link in app.get("dialog")[0].get("link_button") if link.proto.label == "Consultar producto en Amazon ↗"]
+        self.assertEqual(len(purchase), 1)
+        self.assertIn("tag=apexlabsimrac-20", purchase[0].proto.url)
+
+    def test_connected_empty_table_stays_empty_instead_of_restoring_backup(self):
+        self.response.data = []
+        with patch("catalogo.load_public_catalogue") as backup:
+            app = self.app()
+        backup.assert_not_called()
+        self.assertEqual(self.visible_ids(app), [])
+        self.assertFalse(any("Catálogo de respaldo" in item.value or "datos de muestra" in item.value for item in app.info))
+        self.assertTrue(any("Catálogo conectado" in item.value for item in app.markdown))
+
+    def test_connection_failure_and_corrupt_backup_use_labelled_demo_with_no_purchase_links(self):
+        self.create_client.side_effect = RuntimeError("TEST-KEY-DO-NOT-RENDER")
+        with patch("catalogo.load_public_catalogue", side_effect=ValueError("corrupt backup")):
+            app = self.app()
+            self.assertEqual(len(self.visible_ids(app)), len(DEMO_PRODUCTS))
+            self.assertTrue(any("datos de muestra" in item.value for item in app.info))
+            self.assertTrue(any("Catálogo de muestra" in item.value for item in app.markdown))
+            app.button(key="detail_catalogue_demo-g923").click().run()
+            self.assertHealthy(app)
+            self.assertFalse(any(link.proto.label == "Consultar producto en Amazon ↗" for link in app.get("dialog")[0].get("link_button")))
+
+    def test_comparison_and_saved_selection_survive_switch_from_live_to_backup(self):
+        backup, _ = load_public_catalogue(ROOT / "catalogo_publico.json")
+        self.response.data = copy.deepcopy(backup)
+        self.response.data[0]["id"] = "different-database-id"
+        app = self.app()
+        product_id = backup[0]["id"]
+        app.button(key=f"save_catalogue_{product_id}").click().run()
+        app.button(key=f"compare_catalogue_{product_id}").click().run()
+        self.client.table.return_value.select.return_value.limit.return_value.execute.side_effect = RuntimeError("connection interrupted")
+        st.cache_data.clear()
+        app.run()
+        self.assertHealthy(app)
+        self.assertEqual(app.session_state["saved"], [product_id])
+        self.assertEqual(app.session_state["comparison"], [product_id])
+        self.assertTrue(any("Catálogo de respaldo" in item.value for item in app.info))
 
 
 if __name__ == "__main__":
